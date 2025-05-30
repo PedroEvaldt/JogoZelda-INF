@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Compilar com Raylib",
+        "type": "shell",
+        "command": "gcc",
+        "args": [
+          "main.c",
+          "mapa.c",
+          "jogador.c",
+          "monstro.c",
+          "vida.c",
+          "espada.c",
+          "-o",
+          "zelda.exe",
+          "-I",
+          "C:/raylib/raylib/src",
+          "-L",
+          "C:/raylib/raylib/src",
+          "-lraylib",
+          "-lopengl32",
+          "-lgdi32",
+          "-lwinmm"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
