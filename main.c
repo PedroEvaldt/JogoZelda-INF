@@ -59,3 +59,5 @@ int main() {
     CloseWindow(); // Fecha o jogo
     return 0;
 }
+
+// Fim do código principal

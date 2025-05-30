@@ -19,3 +19,5 @@
     void atualizarJogador(Jogador *j, Mapa mapa);
     void desenharJogador(Jogador j);
 #endif
+
+//Meu pau

@@ -1,70 +1,64 @@
-JogoZelda-INF
-Este projeto é uma recriação simplificada do clássico jogo The Legend of Zelda, desenvolvido em linguagem C utilizando a biblioteca gráfica raylib. O objetivo é oferecer uma experiência de aprendizado em desenvolvimento de jogos 2D, abordando conceitos como movimentação de personagens, combate, gerenciamento de vida e carregamento de mapas.
+# JogoZelda-INF
 
-🧑‍💻 Desenvolvedores
-Pedro Evaldt
+Este projeto é uma recriação simplificada do clássico jogo *The Legend of Zelda*, desenvolvido em linguagem C utilizando a biblioteca gráfica [raylib](https://www.raylib.com/).  
+O objetivo é oferecer uma experiência de aprendizado em desenvolvimento de jogos 2D, abordando conceitos como movimentação de personagens, combate, gerenciamento de vida e carregamento de mapas.
 
-Alexandre
+## 👥 Desenvolvedores
 
-🎮 Funcionalidades
-Movimentação do personagem principal em quatro direções.
+- **Pedro Evaldt**
+- **Alexandre**
 
-Sistema de combate com espada.
+## 🎮 Funcionalidades
 
-Inimigos com comportamento simples.
+- Movimentação do personagem principal em quatro direções.
+- Sistema de combate com espada.
+- Inimigos com comportamento simples.
+- Gerenciamento de pontos de vida.
+- Carregamento de mapas a partir de arquivos `.txt`.
+- Renderização de sprites para personagens e elementos do cenário.
 
-Gerenciamento de pontos de vida.
-
-Carregamento de mapas a partir de arquivos .txt.
-
-Renderização de sprites para personagens e elementos do cenário.
-GitHub Docs
-
-🗂️ Estrutura do Projeto
-O projeto está organizado da seguinte forma:
-
-bash
-Copiar
-Editar
+## 📁 Estrutura do Projeto
 
 JogoZelda-INF/
-├── .vscode/             # Configurações do Visual Studio Code
-├── sprites/             # Imagens e sprites utilizados no jogo
-├── espada.c/.h          # Lógica e definições da espada
-├── jogador.c/.h         # Lógica e definições do jogador
-├── monstro.c/.h         # Lógica e definições dos inimigos
-├── vida.c/.h            # Gerenciamento dos pontos de vida
-├── mapa.c/.h            # Carregamento e renderização do mapa
-├── mapa01.txt           # Arquivo de texto representando o mapa do jogo
-├── main.c               # Função principal que inicia o jogo
-├── zelda.exe            # Executável do jogo (para Windows)
-└── .gitignore           # Arquivo para ignorar arquivos e pastas no Git
-🚀 Como Executar
-Pré-requisitos:
+├── .vscode/ # Configurações do Visual Studio Code
+├── sprites/ # Imagens e sprites utilizados no jogo
+├── espada.c/.h # Lógica e definições da espada
+├── jogador.c/.h # Lógica e definições do jogador
+├── monstro.c/.h # Lógica e definições dos inimigos
+├── vida.c/.h # Gerenciamento dos pontos de vida
+├── mapa.c/.h # Carregamento e renderização do mapa
+├── mapa01.txt # Arquivo de texto representando o mapa do jogo
+├── main.c # Função principal que inicia o jogo
+├── zelda.exe # Executável do jogo (para Windows)
+└── .gitignore # Arquivo para ignorar arquivos e pastas no Git
 
-Instale a biblioteca raylib em seu sistema.
+markdown
+Copy
+Edit
 
-Tenha um compilador C instalado (como gcc).
+## 🚀 Como Executar
 
-Compilação:
+### Pré-requisitos
+
+- Instale a biblioteca [raylib](https://www.raylib.com/) em seu sistema.
+- Tenha um compilador C instalado (como `gcc`).
+
+### Compilação
 
 No terminal, navegue até o diretório do projeto e execute:
 
-css
-Copiar
-Editar
+```bash
 gcc main.c jogador.c espada.c monstro.c vida.c mapa.c -o zelda -lraylib -lm -lpthread -ldl -lrt -lX11
-Execução:
-
+Execução
 Após a compilação bem-sucedida, execute o jogo com:
 
 bash
-Copiar
-Editar
+Copy
+Edit
 ./zelda
 Nota: Se estiver utilizando o Windows, você pode executar diretamente o arquivo zelda.exe.
 
-📝 Controles
+🎮 Controles
 Setas direcionais: Movimentação do personagem
 
 Espaço: Ataque com a espada
