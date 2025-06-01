@@ -1,7 +1,10 @@
 #ifndef JOGADOR_H
     #define JOGADOR_H
     #include <stdbool.h>
+    #include <stdio.h>
     #include "mapa.h"
+    #include "vida.h"
+
     typedef struct {
         int x, y;
         int vidas;
@@ -18,6 +21,7 @@
     Jogador inicializarJogador(Mapa mapa);
     void atualizarJogador(Jogador *j, Mapa mapa);
     void desenharJogador(Jogador j);
+    
 #endif
 
 //Meu pau

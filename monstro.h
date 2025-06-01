@@ -2,6 +2,8 @@
     #define MONSTRO_H
     #include <stdbool.h>
     #include "mapa.h"
+    #include "jogador.h"
+    #include "barrastatus.h"
 
     typedef struct {
         int x, y;
@@ -16,7 +18,7 @@
     } Monstro;
 
     int inicializarMonstros(Mapa mapa, Monstro monstros[]);
-    void moverMonstros(Monstro monstros[], int qtd, Mapa mapa);
+    void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra);
     void desenharMonstros(Monstro monstros[], int qtd);
 
 #endif

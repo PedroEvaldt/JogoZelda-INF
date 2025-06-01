@@ -8,9 +8,14 @@
 =======
 #include "barrastatus.h"
 #include "menujogo.h"
+<<<<<<< HEAD
 #include "menuprincipal.h"
 >>>>>>> alexandre
+=======
+#include "atualizarstatus.h"
+>>>>>>> pedro
 #include <stdio.h>
+#include <stdbool.h>
 #define VELOCIDADE_MONSTROS 0.2
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
@@ -25,7 +30,7 @@ int main() {
     int aux = 0;
 >>>>>>> alexandre
     Mapa mapa = carregarMapa(faseAtual); // Carrega mapa da fase
-    Jogador jogador = inicializarJogador(mapa); // Define posição do jogador
+    Jogador jogador = inicializarJogador(mapa); // D5efine posição do jogador
     Monstro monstros[10]; // Até 10 monstros por fase
     Espada espada = inicializarespada(mapa); // Inicializa espada
     int qtdMonstros = inicializarMonstros(mapa, monstros);
@@ -50,20 +55,33 @@ int main() {
     inicializarVida(mapa, vidas); // Inicializa vidas no mapa
   
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    Barra barra = {3, 1, 0, false};
+    atualizarbarra(&barra); // Atualiza a barra de status
+>>>>>>> pedro
 
     while (!WindowShouldClose()) { // Loop principal do jogo
         BeginDrawing();
         ClearBackground(BLACK);
 
         desenharMapa(mapa); // Renderiza mapa
+<<<<<<< HEAD
+=======
+        desenharbarra(barra);
+        atualizarbarra(&barra); // Desenha a barra de status
+>>>>>>> pedro
         atualizarJogador(&jogador, mapa); // Atualiza posição do jogador
 
         desenharespada(espada);
+        atualizarespada(&espada, &jogador, &barra); // Atualiza espada do jogador
+
+        atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
         desenharVida(vidas, quantidade_vidas); 
 
         float tempoAtual = GetTime();  // tempo desde que o jogo iniciou (em segundos)
         if (tempoAtual - tempoUltimoMovimento >= intervaloMovimento) {
-            moverMonstros(monstros, qtdMonstros, mapa); // só move se passou o intervalo
+            moverMonstros(monstros, qtdMonstros, mapa, &jogador, &barra); // só move se passou o intervalo
             tempoUltimoMovimento = tempoAtual; // reinicia o contador
         }
 

@@ -16,8 +16,12 @@
 =======
           "barrastatus.c",
           "menujogo.c",
+<<<<<<< HEAD
           "menuprincipal.c",
 >>>>>>> alexandre
+=======
+          "atualizarstatus.c",
+>>>>>>> pedro
           "-o",
           "zelda.exe",
           "-I",

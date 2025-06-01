@@ -1,5 +1,6 @@
 #include "jogador.h"
 #include "raylib.h"
+#include "vida.h"
 
 Jogador inicializarJogador(Mapa mapa) {
     Jogador jogador = {0};  // zera a struct
@@ -64,3 +65,4 @@ void desenharJogador(Jogador jogador) {
     Vector2 origin = { 0.0f, 0.0f };
     DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
 }
+

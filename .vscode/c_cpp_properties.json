@@ -1,4 +1,4 @@
-{
+  {
     "configurations": [
       {
         "name": "Win32",
@@ -8,10 +8,14 @@
         ],
         "defines": [],
 <<<<<<< HEAD
+<<<<<<< HEAD
         "compilerPath": "D:/mingw64/bin/gcc.exe",
 =======
         "compilerPath": "C:/msys64/ucrt64/bin/gcc.exe",
 >>>>>>> alexandre
+=======
+        "compilerPath": "D:/mingw64/bin/gcc.exe",
+>>>>>>> pedro
         "cStandard": "c11",
         "cppStandard": "c++17",
         "intelliSenseMode": "windows-gcc-x64"
