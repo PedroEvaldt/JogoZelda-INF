@@ -1,14 +1,15 @@
 #include "raylib.h"
 #include "menujogo.h"
+#include "menuprincipal.h"
 #include <stdbool.h>
 
-void exibirMenuJogo()
+int exibirMenuJogo()
 {
-    Color CorBotao = BROWN;
+    Color CorBotao = GRAY;
     Color CorMouseBotao = WHITE;
-    Color CorBotaoPressionado = DARKBROWN;
+    Color CorBotaoPressionado = DARKGRAY;
 
-    Rectangle Botao = {LARGURA_TELA / 2 - 60, ALTURA_TELA / 2 - 20, 120, 40};
+    Rectangle Botao = {LARGURA_TELA / 2 - 100, 400, 200, 60};
 
     bool BotaoPressionado = false;
 
@@ -27,13 +28,13 @@ void exibirMenuJogo()
             {
                 CorBotao = CorMouseBotao;
                 if (BotaoPressionado && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) 
-                    break;
+                    return 5;
                 BotaoPressionado = false; 
             }
         }
         else
         {
-            CorBotao = BROWN; 
+            CorBotao = GRAY;
             BotaoPressionado = false;
         }
 
@@ -42,7 +43,7 @@ void exibirMenuJogo()
 
             DrawText("MENU", 520, 50, 60, RAYWHITE);
             DrawRectangleRec(Botao, CorBotao);
-            DrawText("SAIR",575,420,20,BLACK);
+            DrawText("SAIR DO JOGO",513,420,25,BLACK);
 
         EndDrawing();
 

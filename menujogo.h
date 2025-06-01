@@ -3,6 +3,6 @@
     #define LARGURA_TELA 1200
     #define ALTURA_TELA 860
 
-    void exibirMenuJogo();
+    int exibirMenuJogo();
 
 #endif
