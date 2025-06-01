@@ -2,10 +2,6 @@
     "files.associations": {
         "stdlib.h": "c",
         "raylib.h": "c"
-<<<<<<< HEAD
-    }
-=======
     },
     "C_Cpp.errorSquiggles": "disabled"
->>>>>>> alexandre
 }

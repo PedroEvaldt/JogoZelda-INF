@@ -12,16 +12,10 @@
           "monstro.c",
           "vida.c",
           "espada.c",
-<<<<<<< HEAD
-=======
           "barrastatus.c",
           "menujogo.c",
-<<<<<<< HEAD
-          "menuprincipal.c",
->>>>>>> alexandre
-=======
           "atualizarstatus.c",
->>>>>>> pedro
+          "menuprincipal.c",
           "-o",
           "zelda.exe",
           "-I",

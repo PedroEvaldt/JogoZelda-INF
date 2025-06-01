@@ -1,6 +1,5 @@
 #include "jogador.h"
 #include "raylib.h"
-#include "vida.h"
 
 Jogador inicializarJogador(Mapa mapa) {
     Jogador jogador = {0};  // zera a struct
@@ -30,6 +29,7 @@ void atualizarJogador(Jogador *jogador, Mapa mapa) {
 
     int novoX = jogador->x;
     int novoY = jogador->y;
+    
     if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
         novoX += 1;
         jogador->direcao = 'L'; // leste
@@ -65,4 +65,3 @@ void desenharJogador(Jogador jogador) {
     Vector2 origin = { 0.0f, 0.0f };
     DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
 }
-
