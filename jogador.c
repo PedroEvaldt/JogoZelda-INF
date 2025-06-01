@@ -29,7 +29,6 @@ void atualizarJogador(Jogador *jogador, Mapa mapa) {
 
     int novoX = jogador->x;
     int novoY = jogador->y;
-    
     if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
         novoX += 1;
         jogador->direcao = 'L'; // leste
