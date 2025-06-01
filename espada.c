@@ -21,6 +21,7 @@ Espada inicializarespada(Mapa mapa) {
 }
 
 void desenharespada(Espada espada) {
+    if (!espada.espada) return; // Se a espada não estiver ativa, não desenha
     Texture2D sprite;
     sprite = espada.espada_textura;
     Rectangle source = { 0.0f, 0.0f, (float)sprite.width, (float)sprite.height };

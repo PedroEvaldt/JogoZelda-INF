@@ -2,6 +2,8 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <time.h>
+#include "jogador.h"
+#include "barrastatus.h"
 
 int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     int contador = 0;
@@ -29,7 +31,7 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     return contador;
 }
 
-void moverMonstros(Monstro monstros[], int qtd, Mapa mapa) {
+void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra) {
     for (int i = 0; i < qtd; i++) {
         if (!monstros[i].ativo) continue;
 
@@ -49,7 +51,21 @@ void moverMonstros(Monstro monstros[], int qtd, Mapa mapa) {
             monstros[i].x = novoX;
             monstros[i].y = novoY;
         }
+        
+        if (novoX == jogador->x && novoY == jogador->y) {
+            // Lógica de colisão com o jogador
+            jogador->vidas--; // Decrementa a vida do jogador
+            barra->vidas--;
+            sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas); // Atualiza a barra de status
+            if (jogador->vidas <= 0) {
+                // Lógica para quando o jogador perde todas as vidas
+                //DrawText("GAME OVER", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2, 20, RED);
+                //EndDrawing();
+                return; // Sai da função após perder todas as vidas
+            }
+        }
     }
+
 }
 
 void desenharMonstros(Monstro monstros[], int qtd) {

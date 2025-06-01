@@ -1,0 +1,29 @@
+#include "atualizarstatus.h"
+
+void atualizarvida(Jogador *jogador, Vida vidas[], Barra *barra, int qntdVidas) {
+    for (int i = 0; i < LINHAS; i++){
+        for (int j = 0; j < COLUNAS; j++){
+            for (int k = 0; k < qntdVidas; k++) {
+                if (vidas[k].ativa && vidas[k].x == jogador->x && vidas[k].y == jogador->y) {
+                    vidas[k].ativa = false; // Remove a vida do mapa
+                    jogador->vidas++; // Incrementa a vida do jogador
+                    barra->vidas++; // Atualiza a barra de status
+                    sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas);
+                    qntdVidas--; // Decrementa a quantidade de vidas restantes no mapa
+                    return; // Sai da função após pegar uma vida
+                }
+        }
+    }
+  }
+}
+
+void atualizarespada(Espada *espada, Jogador *jogador, Barra *barra) {
+    if (espada->espada && espada->x == jogador->x && espada->y == jogador->y) {
+        espada->espada = false; // Remove a espada do mapa
+        jogador->espada = true; // Marca que o jogador pegou a espada
+        barra->espada = true; // Atualiza a barra de status
+        //barra->escore += 10; // Incrementa o escore do jogador
+        atualizarbarra(barra); // Atualiza a barra de status
+        //sprintf(barra->escorestr, "ESCORE: %d", barra->escore);
+    }
+}

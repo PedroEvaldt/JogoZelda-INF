@@ -14,6 +14,7 @@
           "espada.c",
           "barrastatus.c",
           "menujogo.c",
+          "atualizarstatus.c",
           "-o",
           "zelda.exe",
           "-I",
