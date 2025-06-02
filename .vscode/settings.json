@@ -2,7 +2,8 @@
     "files.associations": {
         "stdlib.h": "c",
         "raylib.h": "c",
-        "*.m": "c"
+        "*.m": "c",
+        "stdbool.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

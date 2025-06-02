@@ -6,6 +6,8 @@
     #include "vida.h"
     #include "monstro.h"
     #include "barrastatus.h"
+    #include "raylib.h"
+    #define VELOCIDADE_JOGADOR 1
     typedef struct Jogador{
         int x, y;
         int vidas;

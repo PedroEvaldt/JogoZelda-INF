@@ -1,7 +1,5 @@
-#include "raylib.h"
+
 #include "menujogo.h"
-#include "menuprincipal.h"
-#include <stdbool.h>
 
 int exibirMenuJogo()
 {

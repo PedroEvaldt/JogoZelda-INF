@@ -1,8 +1,11 @@
 #ifndef MONSTRO_H
     #define MONSTRO_H
-    #include <stdbool.h>
     #include "mapa.h"
-
+    #include "raylib.h"
+    #include <stdlib.h>
+    #include <stdbool.h>
+    #include <time.h>
+    #include "barrastatus.h"
     typedef struct Jogador Jogador;
     typedef struct Barra Barra;
     typedef struct {

@@ -1,5 +1,6 @@
 #ifndef VIDA_H
     #define VIDA_H
+    #include "raylib.h"
     #include "mapa.h"
     #include <stdbool.h>
     typedef struct {

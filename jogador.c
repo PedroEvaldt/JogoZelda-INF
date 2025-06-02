@@ -1,8 +1,4 @@
 #include "jogador.h"
-#include "raylib.h"
-#include "monstro.h"
-#include "barrastatus.h"
-#define VELOCIDADE_JOGADOR 1
 
 Jogador inicializarJogador(Mapa mapa) {
     Jogador jogador = {0};  // zera a struct

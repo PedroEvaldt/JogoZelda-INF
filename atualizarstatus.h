@@ -1,5 +1,9 @@
 #ifndef ATUALIZARSTATUS_H
     #define ATUALIZARSTATUS_H
+    #define VALOR_VIDA 5
+    #define VALOR_ESPADA 10
+    #define VALOR_MONSTRO 15
+
     #include "jogador.h"
     #include "vida.h"
     #include "barrastatus.h"

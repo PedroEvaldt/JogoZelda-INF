@@ -1,9 +1,5 @@
 #include "monstro.h"
-#include "raylib.h"
-#include <stdlib.h>
-#include <time.h>
 #include "jogador.h"
-#include "barrastatus.h"
 
 int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     int contador = 0;

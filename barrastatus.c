@@ -1,6 +1,4 @@
-#include "raylib.h"
 #include "barrastatus.h"
-#include <stdio.h>
 
 void desenharbarra(Barra barra)
 {

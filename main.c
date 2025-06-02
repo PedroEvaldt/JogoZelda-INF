@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <time.h>
 
+typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
 #define VELOCIDADE_MONSTROS 0.25
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
@@ -45,6 +46,45 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
     }
 }
 
+void exibirGameOver(Jogador *jogador, TelaDoJogo *tela) {
+    while (!WindowShouldClose()){
+        BeginDrawing();
+            ClearBackground(BLACK);
+
+            // Texto principal
+            const char *titulo = "GAME OVER";
+            Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF");
+            float tamanhoFonteTitulo = 50;
+            float espacamento = 2.0f;
+            Vector2 tamanhoTexto = MeasureTextEx(fonte_gameover, titulo, tamanhoFonteTitulo, espacamento);
+            DrawTextEx(fonte_gameover, titulo, (Vector2){(LARGURA_TELA - tamanhoTexto.x) / 2.0f, 300}, tamanhoFonteTitulo, espacamento, RED);
+
+            //(ALTURA_TELA - tamanhoTexto.y) / 2.0f
+            // Pontuação
+            char pontuacao[50];
+            Font font_pontuacao = LoadFont("Fontes/PressStart2P.ttf");
+            sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
+            float tamanhoFonteScore = 30;
+            float espacamentoScore = 1.0f;
+            Vector2 tamanhoTextoScore = MeasureTextEx(font_pontuacao, pontuacao, tamanhoFonteScore, espacamentoScore);
+            DrawTextEx(font_pontuacao, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
+
+            // Instrução
+            const char *instrucao = "Pressione ESPACO para voltar ao menu";
+            float tamanhoFonteInstrucao = 20;
+            float espacamentoMsg = 0.7f;
+            Vector2 tamanhoTextoMsg = MeasureTextEx(font_pontuacao, instrucao, tamanhoFonteInstrucao, espacamentoMsg);
+            DrawTextEx(font_pontuacao, instrucao, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucao, espacamentoMsg, WHITE);
+
+        EndDrawing();
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            *tela = MENU;
+            break;
+        }
+    }
+}
+
 
 int main() {
     InitWindow(LARGURA_TELA, ALTURA_TELA, "Zelda-INF"); // Cria janela principal
@@ -63,7 +103,7 @@ int main() {
     float tempoUltimoMovimento = 0.0f;
     float intervaloMovimento = VELOCIDADE_MONSTROS;
 
-    typedef enum {MENU, JOGO} TelaDoJogo;
+
     TelaDoJogo tela = MENU;
 
     Vida vidas[100]; 
@@ -83,6 +123,10 @@ int main() {
                     return 0;
                 }
                 break;
+            case GAMEOVER:
+                exibirGameOver(&jogador, &tela);
+                tela = MENU; // Volta para o menu após game over
+                break;                
             
             case JOGO:
                 BeginDrawing();
@@ -116,20 +160,25 @@ int main() {
                         if(aux == 5)
                             tela = MENU;
                     }
-
+                if (jogador.vidas <= 0) { 
+                    tela = GAMEOVER; 
+                    break;
+                }
                     EndDrawing();
                     break;
 
-            
+        }
+    }
         descarregarTexturasMapa(&mapa);
         descarregarJogador(&jogador);
         descarregarEspada(&espada);
         descarregarVidas(vidas, quantidade_vidas);
         descarregarMonstros(monstros, qtdMonstros);
         UnloadTexture(sprite);
+        void exibirGameOver(Jogador *jogador, TelaDoJogo *tela);
         CloseWindow(); // Fecha janela
-        return 0;}
-    }
+        return 0;
+    
 }
 
 

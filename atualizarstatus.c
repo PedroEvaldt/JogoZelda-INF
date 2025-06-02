@@ -8,7 +8,7 @@ void atualizarvida(Jogador *jogador, Vida vidas[], Barra *barra, int qntdVidas) 
                     vidas[k].ativa = false; // Remove a vida do mapa
                     jogador->vidas++; // Incrementa a vida do jogador
                     barra->vidas++;
-                    barra->escore += 5; // Atualiza a barra de status
+                    barra->escore += VALOR_VIDA; // Atualiza a barra de status
                     sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas);
                     sprintf(barra->escorestr, "ESCORE: %d", barra->escore);
                     qntdVidas--; // Decrementa a quantidade de vidas restantes no mapa
@@ -24,13 +24,13 @@ void atualizarespada(Espada *espada, Jogador *jogador, Barra *barra) {
         espada->espada = false; // Remove a espada do mapa
         jogador->espada = true; // Marca que o jogador pegou a espada
         barra->espada = true; // Atualiza a barra de status
-        barra->escore += 10; // Incrementa o escore do jogador
+        barra->escore += VALOR_ESPADA; // Incrementa o escore do jogador
         atualizarbarra(barra); // Atualiza a barra de status
         sprintf(barra->escorestr, "ESCORE: %d", barra->escore);
     }
 }
 
 void atualizarscore(Barra *barra, int qntdMonstrosMortos) {
-    barra->escore += qntdMonstrosMortos * 15; // Incrementa o escore baseado na quantidade de monstros mortos
+    barra->escore += qntdMonstrosMortos * VALOR_MONSTRO; // Incrementa o escore baseado na quantidade de monstros mortos
     sprintf(barra->escorestr, "ESCORE: %d", barra->escore); // Atualiza a string do escore
 }

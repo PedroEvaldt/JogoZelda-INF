@@ -1,8 +1,5 @@
 #include "espada.h"
-#include "raylib.h"
-#include "jogador.h"
-#include "monstro.h"
-#include "mapa.h"
+
 Espada inicializarespada(Mapa mapa) {
     Espada espada = {0};  // zera a struct
     espada.espada = false;

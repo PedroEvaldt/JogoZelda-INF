@@ -1,7 +1,9 @@
 #ifndef barrastatus_H
     #define barrastatus_H
+    #include "raylib.h"
     #include <string.h>
     #include <stdbool.h>
+    #include <stdio.h>
     #define N 20
     #define pY 20
     #define TAM 35

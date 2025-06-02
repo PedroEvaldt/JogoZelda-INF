@@ -1,5 +1,4 @@
 #include "vida.h"
-#include "raylib.h"
 
 int inicializarVida(Mapa mapa, Vida vidas[]) {
     int contador = 0;

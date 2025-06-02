@@ -1,6 +1,7 @@
 #ifndef MAPA_H
     #define MAPA_H
     #include "raylib.h"
+    #include <stdio.h>
     #define LINHAS 16
     #define COLUNAS 24
     #define TAM_MENUJOGO 60

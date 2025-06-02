@@ -1,11 +1,9 @@
 #include "mapa.h"
-#include <stdio.h>
-#include "raylib.h"
 
 Mapa carregarMapa(int fase) {
     Mapa mapa;
     char nomeArquivo[20];
-    sprintf(nomeArquivo, "mapa%02d.txt", fase);
+    sprintf(nomeArquivo, "mapas/mapa%02d.txt", fase);
 
 
     FILE *fp = fopen(nomeArquivo, "r");

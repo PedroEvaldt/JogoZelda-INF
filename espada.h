@@ -3,6 +3,8 @@
     #include <stdbool.h>
     #include "mapa.h"
     #include "jogador.h"
+    #include "raylib.h"
+    #include "monstro.h"
     typedef struct {
         int x, y;
         bool espada;
