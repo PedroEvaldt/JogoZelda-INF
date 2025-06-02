@@ -33,9 +33,10 @@ void desenharespada(Espada espada) {
     
 }
 
-void ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa, int qnt_monstros, Monstro monstros[]) {
-    if (!(jogador->espada)) return;
-    if (IsKeyDown(KEY_J)) { 
+int ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa, int qnt_monstros, Monstro monstros[]) {
+    int monstros_mortos = 0;
+    if (!(jogador->espada)) return 0;
+    if (IsKeyDown(KEY_J)) {
     
         int dx = 0, dy = 0;
         float rotacao = 0;
@@ -45,7 +46,7 @@ void ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa
             case 'S': dy =  1; rotacao = 180.0f; break;
             case 'L': dx =  1; rotacao = 90.0f; break;
             case 'O': dx = -1; rotacao = 270.0f; break;
-            default: return;
+            default: return 0;
         }
 
         for (int i = 1; i < 4; i++) {
@@ -73,14 +74,13 @@ void ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa
                         monstros[a].ativo = false; // Derrota o monstro
                         jogador->pontuacao += monstros[a].pontuacao; // Adiciona pontuação
                         mapa->celulas[celulaY][celulaX] = ' '; // Remove o monstro do mapa
+                        monstros_mortos++;
                     }
                 }
             }
 
-            
-
             DrawTexturePro(sprite, source, dest, origin, rotacao, WHITE);
         }
     }
+    return monstros_mortos;
 }
-       

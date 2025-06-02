@@ -87,16 +87,17 @@ int main() {
             case JOGO:
                 BeginDrawing();
                 ClearBackground(BLACK);
-
                 desenharMapa(mapa); // Renderiza mapa
                 desenharbarra(barra);
                 atualizarbarra(&barra); // Desenha a barra de status
                 atualizarJogador(&jogador, mapa, monstros, qtdMonstros, &barra); // Atualiza posição do jogador
-
+        
+                
                 desenharespada(espada);
                 atualizarespada(&espada, &jogador, &barra);
-                ataqueEspada(&espada, &jogador, sprite, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
+                int qntmonstros_mortos = ataqueEspada(&espada, &jogador, sprite, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
 
+                atualizarscore(&barra, qntmonstros_mortos); // Atualiza escore do jogador
                 atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
                 desenharVida(vidas, quantidade_vidas); 
 

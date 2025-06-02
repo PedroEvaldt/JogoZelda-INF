@@ -13,5 +13,5 @@
 
     Espada inicializarespada(Mapa mapa);
     void desenharespada(Espada espada);
-    void ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa, int qnt_monstros, Monstro monstros[]);
+    int ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa, int qnt_monstros, Monstro monstros[]);
 #endif
