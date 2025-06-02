@@ -54,6 +54,7 @@ int main() {
     int faseAtual = 1;
     int aux = 0;
 
+    Texture2D sprite = LoadTexture("sprites/espada.png");
     Mapa mapa = carregarMapa(faseAtual); // Carrega mapa da fase
     Jogador jogador = inicializarJogador(mapa); // Define posição do jogador
     Monstro monstros[10]; // Até 10 monstros por fase
@@ -93,7 +94,8 @@ int main() {
                 atualizarJogador(&jogador, mapa, monstros, qtdMonstros, &barra); // Atualiza posição do jogador
 
                 desenharespada(espada);
-                atualizarespada(&espada, &jogador, &barra); // Atualiza espada do jogador
+                atualizarespada(&espada, &jogador, &barra);
+                ataqueEspada(&espada, &jogador, sprite, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
 
                 atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
                 desenharVida(vidas, quantidade_vidas); 
@@ -123,6 +125,7 @@ int main() {
         descarregarEspada(&espada);
         descarregarVidas(vidas, quantidade_vidas);
         descarregarMonstros(monstros, qtdMonstros);
+        UnloadTexture(sprite);
         CloseWindow(); // Fecha janela
         return 0;}
     }

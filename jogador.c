@@ -117,7 +117,7 @@ void desenharJogador(Jogador jogador) {
         default:  sprite = jogador.jogador_sul; break; // caso genérico
     }
     Rectangle source = { 0.0f, 0.0f, (float)sprite.width, (float)sprite.height };
-    Rectangle dest = { jogador.x * 50.0f, jogador.y * 50.0f + 60.0f, 50.0f, 50.0f };
+    Rectangle dest = { jogador.x * TAM_CELULA, jogador.y * TAM_CELULA + TAM_MENUJOGO, TAM_CELULA, TAM_CELULA };
     Vector2 origin = { 0.0f, 0.0f };
     DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
 }
