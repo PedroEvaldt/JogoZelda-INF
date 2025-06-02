@@ -32,53 +32,71 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
 }
 
 void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra) {
+    int raio_perseguir = 7;
+
     for (int i = 0; i < qtd; i++) {
         if (!monstros[i].ativo) continue;
-    
-        int dir = rand() % 4;
+
+        int dx = jogador->x - monstros[i].x;
+        int dy = jogador->y - monstros[i].y;
+        int distancia = abs(dx) + abs(dy);
+
         int novoX = monstros[i].x;
         int novoY = monstros[i].y;
-    
-        switch (dir) {
-            case 0: novoY--; monstros[i].direcao = 'N'; break;
-            case 1: novoY++; monstros[i].direcao = 'S'; break;
-            case 2: novoX--; monstros[i].direcao = 'O'; break;
-            case 3: novoX++; monstros[i].direcao = 'L'; break;
+
+        if (distancia <= raio_perseguir) {
+            // Movimento inteligente em direção ao jogador
+            if (abs(dx) > abs(dy)) {
+                novoX += (dx > 0) ? 1 : -1;
+                monstros[i].direcao = (dx > 0) ? 'L' : 'O';
+            } else if (dy != 0) {
+                novoY += (dy > 0) ? 1 : -1;
+                monstros[i].direcao = (dy > 0) ? 'S' : 'N';
+            }
+        } else {
+            // Movimento aleatório
+            int dir = rand() % 4;
+            switch (dir) {
+                case 0: novoY--; monstros[i].direcao = 'N'; break;
+                case 1: novoY++; monstros[i].direcao = 'S'; break;
+                case 2: novoX--; monstros[i].direcao = 'O'; break;
+                case 3: novoX++; monstros[i].direcao = 'L'; break;
+            }
         }
-    
-        // Verifica se destino é válido
+
+        // Verifica se destino é válido e não é parede
         if (novoX >= 0 && novoX < COLUNAS && novoY >= 0 && novoY < LINHAS && mapa.celulas[novoY][novoX] != 'P') {
-    
-            // Vai colidir com jogador?
+
+            // Verifica colisão com jogador
             if (novoX == jogador->x && novoY == jogador->y) {
                 if (GetTime() - jogador->tempo_ultimo_dano > 1.0) {
                     jogador->vidas--;
                     barra->vidas--;
                     sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas);
                     jogador->tempo_ultimo_dano = GetTime();
-    
+
                     // Knockback do jogador
-                    int dx = jogador->x - monstros[i].x;
-                    int dy = jogador->y - monstros[i].y;
-                    int destinoX = jogador->x + dx;
-                    int destinoY = jogador->y + dy;
-    
+                    int knockX = jogador->x - monstros[i].x;
+                    int knockY = jogador->y - monstros[i].y;
+                    int destinoX = jogador->x + knockX;
+                    int destinoY = jogador->y + knockY;
+
                     if (destinoX >= 0 && destinoX < COLUNAS && destinoY >= 0 && destinoY < LINHAS && mapa.celulas[destinoY][destinoX] != 'P') {
                         jogador->x = destinoX;
                         jogador->y = destinoY;
                     }
                 }
-                // Monstro não se move, pois bateu no jogador
+                // Monstro não se move se colidir com jogador
             } else {
-                // Move normalmente
+                // Move monstro
                 monstros[i].x = novoX;
                 monstros[i].y = novoY;
             }
         }
-    
+
         if (jogador->vidas <= 0) return;
     }
-        }
+}
 
 void desenharMonstros(Monstro monstros[], int qtd) {
     for (int i = 0; i < qtd; i++) {

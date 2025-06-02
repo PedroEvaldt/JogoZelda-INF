@@ -12,10 +12,10 @@
 #include <stdbool.h>
 #include <time.h>
 
-#define VELOCIDADE_MONSTROS 0.13
+#define VELOCIDADE_MONSTROS 0.25
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
-#define VELOCIDADE_TELA 10 // FPS
+#define VELOCIDADE_TELA 15 // FPS
 
 // Funções para descarregar texturas
 void descarregarJogador(Jogador *j) {
