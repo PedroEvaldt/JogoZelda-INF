@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "jogador.h"
 
 Jogador inicializarJogador(Mapa mapa) {

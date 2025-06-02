@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "atualizarstatus.h"
 
 void atualizarvida(Jogador *jogador, Vida vidas[], Barra *barra, int qntdVidas) {

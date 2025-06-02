@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "mapa.h"
 
 Mapa carregarMapa(int fase) {

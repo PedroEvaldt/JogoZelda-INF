@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "vida.h"
 
 int inicializarVida(Mapa mapa, Vida vidas[]) {
