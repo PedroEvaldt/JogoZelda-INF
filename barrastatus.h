@@ -2,7 +2,6 @@
     #define barrastatus_H
     #include <string.h>
     #include <stdbool.h>
-    #include "jogador.h"
     #define N 20
     #define pY 20
     #define TAM 35

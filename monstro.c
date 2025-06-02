@@ -7,7 +7,7 @@
 
 int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     int contador = 0;
-    srand(time(NULL)); // Inicializa a semente do rand()
+    srand(time(NULL)); // Semente para geração aleatória
 
     for (int i = 0; i < LINHAS; i++) {
         for (int j = 0; j < COLUNAS; j++) {
@@ -34,39 +34,51 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
 void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra) {
     for (int i = 0; i < qtd; i++) {
         if (!monstros[i].ativo) continue;
-
+    
         int dir = rand() % 4;
         int novoX = monstros[i].x;
         int novoY = monstros[i].y;
-
+    
         switch (dir) {
             case 0: novoY--; monstros[i].direcao = 'N'; break;
             case 1: novoY++; monstros[i].direcao = 'S'; break;
             case 2: novoX--; monstros[i].direcao = 'O'; break;
             case 3: novoX++; monstros[i].direcao = 'L'; break;
         }
-
-        // Verifica se novo local é válido (não parede e dentro dos limites)
+    
+        // Verifica se destino é válido
         if (novoX >= 0 && novoX < COLUNAS && novoY >= 0 && novoY < LINHAS && mapa.celulas[novoY][novoX] != 'P') {
-            monstros[i].x = novoX;
-            monstros[i].y = novoY;
-        }
-        
-        if (novoX == jogador->x && novoY == jogador->y) {
-            // Lógica de colisão com o jogador
-            jogador->vidas--; // Decrementa a vida do jogador
-            barra->vidas--;
-            sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas); // Atualiza a barra de status
-            if (jogador->vidas <= 0) {
-                // Lógica para quando o jogador perde todas as vidas
-                //DrawText("GAME OVER", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2, 20, RED);
-                //EndDrawing();
-                return; // Sai da função após perder todas as vidas
+    
+            // Vai colidir com jogador?
+            if (novoX == jogador->x && novoY == jogador->y) {
+                if (GetTime() - jogador->tempo_ultimo_dano > 1.0) {
+                    jogador->vidas--;
+                    barra->vidas--;
+                    sprintf(barra->vidasstr, "VIDAS: %d", barra->vidas);
+                    jogador->tempo_ultimo_dano = GetTime();
+    
+                    // Knockback do jogador
+                    int dx = jogador->x - monstros[i].x;
+                    int dy = jogador->y - monstros[i].y;
+                    int destinoX = jogador->x + dx;
+                    int destinoY = jogador->y + dy;
+    
+                    if (destinoX >= 0 && destinoX < COLUNAS && destinoY >= 0 && destinoY < LINHAS && mapa.celulas[destinoY][destinoX] != 'P') {
+                        jogador->x = destinoX;
+                        jogador->y = destinoY;
+                    }
+                }
+                // Monstro não se move, pois bateu no jogador
+            } else {
+                // Move normalmente
+                monstros[i].x = novoX;
+                monstros[i].y = novoY;
             }
         }
+    
+        if (jogador->vidas <= 0) return;
     }
-
-}
+        }
 
 void desenharMonstros(Monstro monstros[], int qtd) {
     for (int i = 0; i < qtd; i++) {
@@ -83,7 +95,7 @@ void desenharMonstros(Monstro monstros[], int qtd) {
 
         // Desenha o sprite redimensionado em 50x50 pixels
         Rectangle source = { 0.0f, 0.0f, (float)sprite.width, (float)sprite.height };
-        Rectangle dest = { monstros[i].x * 50.0f, monstros[i].y * 50.0f + 60.0f, 50.0f, 50.0f };
+        Rectangle dest = { monstros[i].x * TAM_CELULA, monstros[i].y * TAM_CELULA + TAM_MENUJOGO, TAM_CELULA, TAM_CELULA };
         Vector2 origin = { 0.0f, 0.0f };
         DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
     }

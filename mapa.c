@@ -43,7 +43,7 @@ void desenharMapa(Mapa mapa) {
                 default: sprite = mapa.chao; break;
             }
             Rectangle source = {0.0f, 0.0f, (float)sprite.width, (float)sprite.height};
-            Rectangle dest = { j * 50.0f, i * 50.0f + 60.0f, 50.0f, 50.0f };
+            Rectangle dest = { j * TAM_CELULA, i * TAM_CELULA + TAM_MENUJOGO, TAM_CELULA, TAM_CELULA };
             Vector2 origin = { 0.0f, 0.0f };
             DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
         }

@@ -3,6 +3,8 @@
     #include "raylib.h"
     #define LINHAS 16
     #define COLUNAS 24
+    #define TAM_MENUJOGO 60
+    #define TAM_CELULA 50
     typedef struct mapa {
         char celulas[LINHAS][COLUNAS];
         Texture2D parede;

@@ -2,9 +2,9 @@
     #define MONSTRO_H
     #include <stdbool.h>
     #include "mapa.h"
-    #include "jogador.h"
-    #include "barrastatus.h"
 
+    typedef struct Jogador Jogador;
+    typedef struct Barra Barra;
     typedef struct {
         int x, y;
         char direcao; // N, S, L, O

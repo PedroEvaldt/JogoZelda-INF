@@ -4,13 +4,15 @@
     #include <stdio.h>
     #include "mapa.h"
     #include "vida.h"
-
-    typedef struct {
+    #include "monstro.h"
+    #include "barrastatus.h"
+    typedef struct Jogador{
         int x, y;
         int vidas;
         int pontuacao;
         bool espada;
         char direcao;
+        double tempo_ultimo_dano;
         Texture2D jogador_sul;
         Texture2D jogador_norte;
         Texture2D jogador_leste;
@@ -19,7 +21,7 @@
     } Jogador;
 
     Jogador inicializarJogador(Mapa mapa);
-    void atualizarJogador(Jogador *j, Mapa mapa);
+    void atualizarJogador(Jogador *jogador, Mapa mapa, Monstro monstros[], int qnt_monstros, Barra *barra);
     void desenharJogador(Jogador j);
     
 #endif

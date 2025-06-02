@@ -9,5 +9,5 @@
     }Vida;
 
     void desenharVida(Vida vidas[], int qtd);
-    void inicializarVida(Mapa mapa, Vida vidas[]);
+    int inicializarVida(Mapa mapa, Vida vidas[]);
 #endif
