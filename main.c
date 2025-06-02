@@ -125,6 +125,7 @@ int main() {
                     CloseWindow();
                     return 0;
                 }
+                break;
             case GAMEOVER:
                 exibirGameOver(&jogador, &tela);
                 tela = MENU; // Volta para o menu após game over
