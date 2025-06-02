@@ -6,5 +6,5 @@
     #define ALTURA_TELA 860
 
     int exibirMenuPrincipal();
-
+    int exibirTelaInfo();
 #endif

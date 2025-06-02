@@ -92,7 +92,7 @@ int main() {
     
 
     int faseAtual = 1;
-    int aux = 0;
+    int aux = 0, space = 0;
 
     Texture2D sprite = LoadTexture("sprites/espada.png");
     Mapa mapa = carregarMapa(faseAtual); // Carrega mapa da fase
@@ -116,13 +116,15 @@ int main() {
         switch(tela) {
             case MENU:
                 aux = exibirMenuPrincipal();
-                if(aux == 1)
-                    tela = JOGO;
-                else if (aux == 3){
+                if(aux == 1){
+                    space = exibirTelaInfo();
+                    if(space == 4)
+                        tela = JOGO;
+                }
+                else if(aux == 3){
                     CloseWindow();
                     return 0;
                 }
-                break;
             case GAMEOVER:
                 exibirGameOver(&jogador, &tela);
                 tela = MENU; // Volta para o menu após game over

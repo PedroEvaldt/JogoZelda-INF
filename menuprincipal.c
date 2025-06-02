@@ -1,7 +1,6 @@
 #include "menuprincipal.h"
 
-int exibirMenuPrincipal()
-{
+int exibirMenuPrincipal(){
     Color CorBotao = GRAY;
     Color CorMouseBotao = WHITE;
     Color CorBotaoPressionado = DARKGRAY;
@@ -13,6 +12,9 @@ int exibirMenuPrincipal()
     bool BotaoIniciarPressionado = false;
     bool BotaoScorePressionado = false;
     bool BotaoSairPressionado = false;
+
+    Texture2D jogador = LoadTexture("sprites/jogador-sul.png");
+    Texture2D monstro = LoadTexture("sprites/monstro-sul.png");
 
     while (!WindowShouldClose())
     {
@@ -88,7 +90,11 @@ int exibirMenuPrincipal()
         BeginDrawing();
             ClearBackground(BLACK);
 
-            DrawText("MENU PRINCIPAL", 350, 50, 60, RAYWHITE);
+            Vector2 posicaoJ = {180,290};
+            Vector2 posicaoM = {870,300};
+            DrawTextureEx(jogador,posicaoJ,0,0.5,WHITE);
+            DrawTextureEx(monstro,posicaoM,0,0.55,WHITE);
+            DrawText("MENU PRINCIPAL", 342, 50, 60, RAYWHITE);
             DrawRectangleRec(BotaoIniciar, CorBotaoIniciar);
             DrawText("INICIAR",552,320,25,BLACK);
             DrawRectangleRec(BotaoScore, CorBotaoScore);
@@ -97,5 +103,25 @@ int exibirMenuPrincipal()
             DrawText("SAIR",570,620,25,BLACK);
 
         EndDrawing();
+    }
+}
+
+int exibirTelaInfo()
+{   
+    while(!WindowShouldClose()){
+
+    BeginDrawing();
+        ClearBackground(BLACK);
+
+        DrawText("Sobre o jogo:", 470, 80, 35, RAYWHITE);
+        DrawText("Tecla TAB: Pausa o jogo e abre/fecha o menu do jogo", 100, 300, 20, RAYWHITE);
+        DrawText("Teclas W/A/S/D e as setas: Move o jogador uma posição na direção indicada", 100, 400, 20, RAYWHITE);
+        DrawText("Tecla J: Ativa a espada", 100, 500, 20, RAYWHITE);
+        DrawText("Pressione SPACE para iniciar o jogo", 350, 650, 25, RED);
+
+    EndDrawing();
+
+    if(IsKeyPressed(KEY_SPACE))
+             return 4;        
     }
 }
