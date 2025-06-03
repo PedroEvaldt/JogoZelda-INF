@@ -103,11 +103,14 @@ void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMon
     atualizarbarra(barra);
 }
 
+int monstors_mortos = 0;
 bool todosMonstrosMortos (Monstro monstros[], int qnt){
     for (int i = 0; i < qnt; qnt++){
         if (monstros[i].ativo){
            return false; 
         }
+        monstors_mortos ++;
+        printf("%d\n", monstors_mortos);
     }
     return true;
 }
@@ -202,6 +205,7 @@ int main() {
                     }
                 
                 if (todosMonstrosMortos(monstros, qtdMonstros)){
+                    printf("Monstros Vivos: %d\n", qtdMonstros);
                     faseAtual++;
 
                     descarregarTexturasMapa(&mapa);
@@ -214,7 +218,11 @@ int main() {
                     UnloadFont(font_pontuacao);
 
                     mapa = carregarMapa(faseAtual);
+                    int vidas_faseatual = jogador.vidas;
+                    int score_jogador = jogador.pontuacao;
                     jogador = inicializarJogador(mapa);
+                    jogador.vidas = vidas_faseatual;
+                    jogador.pontuacao = score_jogador;
                     espada = inicializarespada(mapa);
                     qtdMonstros = inicializarMonstros(mapa, monstros);
 
@@ -226,7 +234,7 @@ int main() {
                     tela = GAMEOVER; 
                     break;
                 }
-                
+
                 EndDrawing();
                 break;
         }
