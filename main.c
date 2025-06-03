@@ -187,19 +187,20 @@ int main() {
                     tempoUltimoMovimento = tempoAtual; // reinicia o contador
                 }
 
-                desenharJogador(jogador); // Desenh5a jogador
+                desenharJogador(jogador); // Desenha jogador
                 desenharMonstros(monstros, qtdMonstros); // Desenha inimigos
 
                 if(IsKeyPressed(KEY_TAB)) //Abre o menu do jogo caso clique TAB
                     {
                         aux = exibirMenuJogo();
                         if(aux == 5)
+                            break;
+                        else if(aux==6)
                             tela = MENU;
+                        else if(aux==7)
+                            CloseWindow();
                     }
-                if (jogador.vidas <= 0) { 
-                    tela = GAMEOVER; 
-                    break;
-                }
+                
                 if (todosMonstrosMortos(monstros, qtdMonstros)){
                     faseAtual++;
 
@@ -216,13 +217,16 @@ int main() {
                     jogador = inicializarJogador(mapa);
                     espada = inicializarespada(mapa);
                     qtdMonstros = inicializarMonstros(mapa, monstros);
-                    quantidade_vidas = inicializarVida(mapa, vidas);
 
                     barra.nivel = faseAtual;
                     atualizarbarra(&barra);
-
-
                 }
+
+                if (jogador.vidas <= 0) { 
+                    tela = GAMEOVER; 
+                    break;
+                }
+                
                 EndDrawing();
                 break;
         }
@@ -233,7 +237,6 @@ int main() {
         descarregarVidas(vidas, quantidade_vidas);
         descarregarMonstros(monstros, qtdMonstros);
         UnloadTexture(sprite);
-
         UnloadFont(fonte_gameover);
         UnloadFont(font_pontuacao);
 
