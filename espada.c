@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "espada.h"
 
 Espada inicializarespada(Mapa mapa) {

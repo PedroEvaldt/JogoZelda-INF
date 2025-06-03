@@ -4,6 +4,7 @@
     #define VALOR_ESPADA 10
     #define VALOR_MONSTRO 15
 
+    #include "raylib.h"
     #include "jogador.h"
     #include "vida.h"
     #include "barrastatus.h"

@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "menuprincipal.h"
 
 int exibirMenuPrincipal(){

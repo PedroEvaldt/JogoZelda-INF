@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "monstro.h"
 #include "jogador.h"
 

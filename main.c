@@ -46,14 +46,13 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
     }
 }
 
-void exibirGameOver(Jogador *jogador, TelaDoJogo *tela) {
+void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font font_pontuacao) {
     while (!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(BLACK);
 
             // Texto principal
             const char *titulo = "GAME OVER";
-            Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF");
             float tamanhoFonteTitulo = 50;
             float espacamento = 2.0f;
             Vector2 tamanhoTexto = MeasureTextEx(fonte_gameover, titulo, tamanhoFonteTitulo, espacamento);
@@ -62,7 +61,6 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela) {
             //(ALTURA_TELA - tamanhoTexto.y) / 2.0f
             // Pontuação
             char pontuacao[50];
-            Font font_pontuacao = LoadFont("Fontes/PressStart2P.ttf");
             sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
             float tamanhoFonteScore = 30;
             float espacamentoScore = 1.0f;
@@ -83,6 +81,21 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela) {
             break;
         }
     }
+}
+
+void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
+{
+    *mapa = carregarMapa(faseAtual); 
+    *jogador = inicializarJogador(*mapa); 
+    *qtdMonstros = inicializarMonstros(*mapa,monstros);
+    *espada = inicializarespada(*mapa);
+    *quantidade_vidas = inicializarVida(*mapa, vidas);
+
+    barra->vidas = 3; 
+    barra->nivel= 1; 
+    barra->escore = 0;
+    barra->espada = false; 
+    atualizarbarra(barra);
 }
 
 
@@ -106,6 +119,10 @@ int main() {
 
     TelaDoJogo tela = MENU;
 
+    sprite = LoadTexture("sprites/espada.png"); 
+    Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
+    Font font_pontuacao = LoadFont("Fontes/PressStart2P.ttf");
+
     Vida vidas[100]; 
     int quantidade_vidas = inicializarVida(mapa, vidas); // Inicializa vidas
   
@@ -119,18 +136,21 @@ int main() {
                 if(aux == 1){
                     space = exibirTelaInfo();
                     if(space == 4)
+                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
+                        tempoUltimoMovimento = 0.0f;
                         tela = JOGO;
                 }
                 else if(aux == 3){
                     CloseWindow();
                     return 0;
                 }
-                break;
+                break;     
+
             case GAMEOVER:
-                exibirGameOver(&jogador, &tela);
-                tela = MENU; // Volta para o menu após game over
-                break;                
-            
+                    jogador.pontuacao = barra.escore;
+                    exibirGameOver(&jogador, &tela,fonte_gameover, font_pontuacao);
+                    break;
+
             case JOGO:
                 BeginDrawing();
                 ClearBackground(BLACK);
@@ -178,7 +198,10 @@ int main() {
         descarregarVidas(vidas, quantidade_vidas);
         descarregarMonstros(monstros, qtdMonstros);
         UnloadTexture(sprite);
-        void exibirGameOver(Jogador *jogador, TelaDoJogo *tela);
+
+        UnloadFont(fonte_gameover);
+        UnloadFont(font_pontuacao);
+
         CloseWindow(); // Fecha janela
         return 0;
     

@@ -1,4 +1,4 @@
-
+#include "raylib.h"
 #include "menujogo.h"
 
 int exibirMenuJogo()
