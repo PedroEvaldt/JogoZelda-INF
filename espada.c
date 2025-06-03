@@ -31,7 +31,8 @@ void desenharespada(Espada espada) {
     
 }
 
-int ataqueEspada(Espada *espada, Jogador *jogador, Texture2D sprite, Mapa *mapa, int qnt_monstros, Monstro monstros[]) {
+int ataqueEspada(Espada *espada, Jogador *jogador, Mapa *mapa, int qnt_monstros, Monstro monstros[]) {
+    Texture2D sprite = espada->espada_textura;
     int monstros_mortos = 0;
     if (!(jogador->espada)) return 0;
     if (IsKeyDown(KEY_J)) {

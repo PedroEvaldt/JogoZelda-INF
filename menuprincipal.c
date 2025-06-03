@@ -127,3 +127,35 @@ int exibirTelaInfo()
              return 4;        
     }
 }
+
+char* pedirnomejogador(){
+    static char nome[MAX_NOME] = "";
+    int posicao = 0;
+    nome[0] = '\0';
+
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+
+        DrawText("Digite seu nome:", 450, 100, 30, RAYWHITE);
+        DrawText(nome, 450, 200, 30, RAYWHITE);
+        DrawText("Pressione ENTER para continuar", 400, 300, 20, GRAY);
+        EndDrawing();
+
+        int tecla = GetCharPressed();
+        if (tecla >= 32 && tecla <= 126 && posicao < MAX_NOME - 1) {
+            nome[posicao] = (char)tecla;
+            posicao++;
+            nome[posicao] = '\0';
+            }
+        if (IsKeyPressed(KEY_BACKSPACE) && posicao > 0) {
+            posicao--;
+            nome[posicao] = '\0';
+        }
+        if (IsKeyPressed(KEY_ENTER)) {
+            break;
+            }
+        }
+        return nome;
+
+    }

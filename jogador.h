@@ -14,6 +14,7 @@
         int pontuacao;
         bool espada;
         char direcao;
+        char nome[20];
         double tempo_ultimo_dano;
         Texture2D jogador_sul;
         Texture2D jogador_norte;
@@ -27,5 +28,3 @@
     void desenharJogador(Jogador j);
     
 #endif
-
-//Meu pau

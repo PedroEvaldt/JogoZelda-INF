@@ -4,7 +4,7 @@
     {
       "label": "Compilar com Raylib",
       "type": "shell",
-      "command": "C:/msys64/mingw64/bin/gcc.exe",
+      "command": "gcc",
       "args": [
         "main.c",
         "mapa.c",
@@ -16,19 +16,22 @@
         "menujogo.c",
         "atualizarstatus.c",
         "menuprincipal.c",
-        "-IC:/raylib/raylib/include",
-        "-LC:/raylib/raylib/lib",
+        "score.c",
+        "-o",
+        "zelda.exe",
+        "-I",
+        "C:/raylib/raylib/src",
+        "-L",
+        "C:/raylib/raylib/src",
         "-lraylib",
         "-lopengl32",
         "-lgdi32",
-        "-lwinmm",
-        "-o",
-        "zelda.exe"
+        "-lwinmm"
       ],
       "group": {
         "kind": "build",
         "isDefault": true
-      },
+      }
     }
   ]
 }

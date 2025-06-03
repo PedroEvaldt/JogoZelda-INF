@@ -11,8 +11,8 @@
     typedef struct {
         int x, y;
         char direcao; // N, S, L, O
-        int pontuacao; // entre 0 e 100
         bool ativo; // se foi derrotado ou não
+        int pontuacao; // pontuação do monstro
         Texture2D monstro;
         Texture2D monstro_norte;
         Texture2D monstro_sul;

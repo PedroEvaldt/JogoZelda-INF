@@ -8,15 +8,16 @@
 #include "menujogo.h"
 #include "atualizarstatus.h"
 #include "menuprincipal.h"
+#include "score.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
 
 typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
-#define VELOCIDADE_MONSTROS 0.25
+#define VELOCIDADE_MONSTROS 1
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
-#define VELOCIDADE_TELA 15 // FPS
+#define VELOCIDADE_TELA 40 // FPS
 
 // Funções para descarregar texturas
 void descarregarJogador(Jogador *j) {
@@ -103,14 +104,12 @@ void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMon
     atualizarbarra(barra);
 }
 
-int monstors_mortos = 0;
+
 bool todosMonstrosMortos (Monstro monstros[], int qnt){
-    for (int i = 0; i < qnt; qnt++){
+    for (int i = 0; i < qnt; i++){
         if (monstros[i].ativo){
            return false; 
         }
-        monstors_mortos ++;
-        printf("%d\n", monstors_mortos);
     }
     return true;
 }
@@ -132,11 +131,11 @@ int main() {
     int qtdMonstros = inicializarMonstros(mapa, monstros);
     float tempoUltimoMovimento = 0.0f;
     float intervaloMovimento = VELOCIDADE_MONSTROS;
+    char nomejogador[21] = "";
 
 
     TelaDoJogo tela = MENU;
 
-    sprite = LoadTexture("sprites/espada.png"); 
     Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
     Font font_pontuacao = LoadFont("Fontes/PressStart2P.ttf");
 
@@ -151,11 +150,19 @@ int main() {
             case MENU:
                 aux = exibirMenuPrincipal();
                 if(aux == 1){
+                    strcpy(nomejogador, pedirnomejogador()); // Pede nome do jogador
                     space = exibirTelaInfo();
-                    if(space == 4)
+                    if(space == 4) {
                         reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
                         tempoUltimoMovimento = 0.0f;
                         tela = JOGO;
+                    }
+                }
+                else if(aux == 2){
+                    space = mostrarTop5();
+                    if (space == 1){
+                        tela = MENU;
+                    }
                 }
                 else if(aux == 3){
                     CloseWindow();
@@ -179,7 +186,7 @@ int main() {
                 
                 desenharespada(espada);
                 atualizarespada(&espada, &jogador, &barra);
-                int qntmonstros_mortos = ataqueEspada(&espada, &jogador, sprite, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
+                int qntmonstros_mortos = ataqueEspada(&espada, &jogador, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
                 atualizarscore(&barra, qntmonstros_mortos); // Atualiza escore do jogador
                 atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
                 desenharVida(vidas, quantidade_vidas); 
@@ -205,7 +212,6 @@ int main() {
                     }
                 
                 if (todosMonstrosMortos(monstros, qtdMonstros)){
-                    printf("Monstros Vivos: %d\n", qtdMonstros);
                     faseAtual++;
 
                     descarregarTexturasMapa(&mapa);
@@ -214,8 +220,6 @@ int main() {
                     descarregarVidas(vidas, quantidade_vidas);
                     descarregarMonstros(monstros, qtdMonstros);
                     UnloadTexture(sprite);
-                    UnloadFont(fonte_gameover);
-                    UnloadFont(font_pontuacao);
 
                     mapa = carregarMapa(faseAtual);
                     int vidas_faseatual = jogador.vidas;
@@ -224,13 +228,17 @@ int main() {
                     jogador.vidas = vidas_faseatual;
                     jogador.pontuacao = score_jogador;
                     espada = inicializarespada(mapa);
+                    desenharespada(espada);
                     qtdMonstros = inicializarMonstros(mapa, monstros);
-
+                    int vidas_fase = inicializarVida(mapa, vidas);
+                    barra.espada = false; // Reseta a espada
                     barra.nivel = faseAtual;
                     atualizarbarra(&barra);
                 }
 
                 if (jogador.vidas <= 0) { 
+                    jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
+                    salvarScore(nomejogador, jogador.pontuacao); // Salva pontuação no arquivo
                     tela = GAMEOVER; 
                     break;
                 }
