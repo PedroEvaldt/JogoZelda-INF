@@ -32,6 +32,6 @@ void atualizarespada(Espada *espada, Jogador *jogador, Barra *barra) {
 }
 
 void atualizarscore(Barra *barra, int qntdMonstrosMortos) {
-    barra->escore += qntdMonstrosMortos * VALOR_MONSTRO; // Incrementa o escore baseado na quantidade de monstros mortos
+    barra->escore += qntdMonstrosMortos * rand()%101; // Incrementa o escore baseado na quantidade de monstros mortos
     sprintf(barra->escorestr, "ESCORE: %d", barra->escore); // Atualiza a string do escore
 }

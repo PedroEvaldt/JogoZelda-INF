@@ -47,6 +47,7 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
 }
 
 void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font font_pontuacao) {
+    
     while (!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(BLACK);
@@ -83,19 +84,32 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Fon
     }
 }
 
+
+
 void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
 {
+    //Retorna as posições iniciais no mapa
     *mapa = carregarMapa(faseAtual); 
     *jogador = inicializarJogador(*mapa); 
     *qtdMonstros = inicializarMonstros(*mapa,monstros);
     *espada = inicializarespada(*mapa);
     *quantidade_vidas = inicializarVida(*mapa, vidas);
 
+    //Reinicia a contagem de vida, nível, escore e o bool da espada na barra de status
     barra->vidas = 3; 
     barra->nivel= 1; 
     barra->escore = 0;
     barra->espada = false; 
     atualizarbarra(barra);
+}
+
+bool todosMonstrosMortos (Monstro monstros[], int qnt){
+    for (int i = 0; i < qnt; qnt++){
+        if (monstros[i].ativo){
+           return false; 
+        }
+    }
+    return true;
 }
 
 
@@ -147,7 +161,7 @@ int main() {
                 break;     
 
             case GAMEOVER:
-                    jogador.pontuacao = barra.escore;
+                    jogador.pontuacao = barra.escore; //Salva a pontuação do jogador
                     exibirGameOver(&jogador, &tela,fonte_gameover, font_pontuacao);
                     break;
 
@@ -163,7 +177,6 @@ int main() {
                 desenharespada(espada);
                 atualizarespada(&espada, &jogador, &barra);
                 int qntmonstros_mortos = ataqueEspada(&espada, &jogador, sprite, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
-
                 atualizarscore(&barra, qntmonstros_mortos); // Atualiza escore do jogador
                 atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
                 desenharVida(vidas, quantidade_vidas); 
@@ -187,9 +200,31 @@ int main() {
                     tela = GAMEOVER; 
                     break;
                 }
-                    EndDrawing();
-                    break;
+                if (todosMonstrosMortos(monstros, qtdMonstros)){
+                    faseAtual++;
 
+                    descarregarTexturasMapa(&mapa);
+                    descarregarJogador(&jogador);
+                    descarregarEspada(&espada);
+                    descarregarVidas(vidas, quantidade_vidas);
+                    descarregarMonstros(monstros, qtdMonstros);
+                    UnloadTexture(sprite);
+                    UnloadFont(fonte_gameover);
+                    UnloadFont(font_pontuacao);
+
+                    mapa = carregarMapa(faseAtual);
+                    jogador = inicializarJogador(mapa);
+                    espada = inicializarespada(mapa);
+                    qtdMonstros = inicializarMonstros(mapa, monstros);
+                    quantidade_vidas = inicializarVida(mapa, vidas);
+
+                    barra.nivel = faseAtual;
+                    atualizarbarra(&barra);
+
+
+                }
+                EndDrawing();
+                break;
         }
     }
         descarregarTexturasMapa(&mapa);
@@ -204,8 +239,8 @@ int main() {
 
         CloseWindow(); // Fecha janela
         return 0;
-    
 }
+
 
 
     

@@ -1,14 +1,15 @@
 #include "raylib.h"
 #include "menuprincipal.h"
 
-int exibirMenuPrincipal(){
+int exibirMenuPrincipal()
+{
     Color CorBotao = GRAY;
     Color CorMouseBotao = WHITE;
     Color CorBotaoPressionado = DARKGRAY;
 
     Rectangle BotaoIniciar = {LARGURA_TELA / 2 - 100, 300, 200, 60};
     Rectangle BotaoScore = {LARGURA_TELA / 2 - 100, 450, 200, 60};
-    Rectangle BotaoSair = {LARGURA_TELA / 2 - 100, 600, 200, 60};
+    Rectangle BotaoSair = {LARGURA_TELA / 2 - 100, 600, 200, 60};   
 
     bool BotaoIniciarPressionado = false;
     bool BotaoScorePressionado = false;
