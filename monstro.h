@@ -21,6 +21,18 @@
         Texture2D monstro_oeste;
     } Monstro;
     
+    typedef struct {
+        int x, y;
+        char direcao; // N, S, L, O
+        bool ativo; // se foi derrotado ou não
+        int pontuacao; // pontuação do monstro_especial
+        Texture2D monstro_especial;
+        Texture2D monstro_especial_norte;
+        Texture2D monstro_especial_sul;
+        Texture2D monstro_especial_leste;
+        Texture2D monstro_especial_oeste;
+    } monstro_especial;
+    
     int inicializarMonstros(Mapa mapa, Monstro monstros[]);
     void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra);
     void desenharMonstros(Monstro monstros[], int qtd);

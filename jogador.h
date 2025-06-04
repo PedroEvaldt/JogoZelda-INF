@@ -7,6 +7,7 @@
     #include "monstro.h"
     #include "barrastatus.h"
     #include "raylib.h"
+    #include "arma.h"
     #define VELOCIDADE_JOGADOR 1
     typedef struct Jogador{
         int x, y;
@@ -16,10 +17,12 @@
         char direcao;
         char nome[20];
         double tempo_ultimo_dano;
+        arma arma;
         Texture2D jogador_sul;
         Texture2D jogador_norte;
         Texture2D jogador_leste;
         Texture2D jogador_oeste;
+        
 
     } Jogador;
 
