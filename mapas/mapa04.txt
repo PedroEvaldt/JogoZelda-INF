@@ -1,9 +1,9 @@
 PPPPPPPPPPPPPPPPPPPPPPPP
-PJ      P     M       EP
+PJ      P     M        P
 PP PPPP P PPPPPPPP PPPPP
-P      P P        P    P
+P      P P             P
 P PPPP P P PPPPPP P PP P
-P P    P P P    P P P  P
+P PE   P P P    P P P  P
 P P PPPP P P PP P P P  P
 P P      P P P  P P PPPP
 P PPPPPPPP P P  P P    P

@@ -28,7 +28,7 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     return contador;
 }
 void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra) {
-    int raio_perseguir = 7;
+    int raio_perseguir = 20;
 
     for (int i = 0; i < qtd; i++) {
         if (!monstros[i].ativo) continue;

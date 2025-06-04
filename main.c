@@ -15,10 +15,10 @@
 #include <time.h>
 
 typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
-#define VELOCIDADE_MONSTROS 1
+#define VELOCIDADE_MONSTROS 0.5
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
-#define VELOCIDADE_TELA 40 // FPS
+#define VELOCIDADE_TELA 120 // FPS
 
 // Funções para descarregar texturas
 void descarregarJogador(Jogador *j) {
@@ -48,6 +48,39 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
     }
 }
 
+void exibirvitoria(Jogador *jogador, TelaDoJogo *tela, Font fonte_vitoria, Font fonte_escrita, char *nomejogador) {
+    while (!WindowShouldClose()){
+        BeginDrawing();
+            ClearBackground(BLACK);
+            // Texto principal
+            int espacamento = 0.7f;
+            char vitoria[100];
+            sprintf(vitoria, "Parabens %s, voce venceu!", nomejogador);
+            float tamanhoFontevitoria = 30;
+            Vector2 tamanhoTextovitoria = MeasureTextEx(fonte_vitoria, vitoria, tamanhoFontevitoria, espacamento);
+            DrawTextEx(fonte_vitoria, vitoria, (Vector2){(LARGURA_TELA - tamanhoTextovitoria.x) / 2.0f, 80}, tamanhoFontevitoria, espacamento, RAYWHITE);
+
+            char pontuacao[50];
+            sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
+            float tamanhoFonteScore = 30;
+            float espacamentoScore = 1.0f;
+            Vector2 tamanhoTextoScore = MeasureTextEx(fonte_escrita, pontuacao, tamanhoFonteScore, espacamentoScore);
+            DrawTextEx(fonte_escrita, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
+
+            const char *instrucao = "Pressione ESPACO para voltar ao menu";
+            float tamanhoFonteInstrucao = 20;
+            float espacamentoMsg = 0.7f;
+            Vector2 tamanhoTextoMsg = MeasureTextEx(fonte_escrita, instrucao, tamanhoFonteInstrucao, espacamentoMsg);
+            DrawTextEx(fonte_escrita, instrucao, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucao, espacamentoMsg, RED);
+            
+        EndDrawing();
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            *tela = MENU;
+            break;
+        }
+    }
+}
 void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita) {
     
     while (!WindowShouldClose()){
@@ -150,8 +183,7 @@ int main() {
         switch(tela) {
             case MENU:
                 aux = exibirMenuPrincipal();
-                if(aux == 1){
-                    strcpy(nomejogador, pedirnomejogador()); // Pede nome do jogador
+                if(aux == 1){ // Pede nome do jogador
                     space = exibirTelaInfo();
                     if(space == 4) {
                         reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
@@ -213,6 +245,18 @@ int main() {
                     }
                 
                 if (todosMonstrosMortos(monstros, qtdMonstros)){
+
+                    Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
+                    Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
+
+                    if (faseAtual == 10) {
+                        strcpy(nomejogador, pedirnomejogador());
+                        jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
+                        salvarScore(nomejogador, jogador.pontuacao);
+                        exibirvitoria(&jogador, &tela, fonte_gameover, fonte_escrita, nomejogador);
+                        break;
+                    }
+
                     faseAtual++;
 
                     descarregarTexturasMapa(&mapa);
