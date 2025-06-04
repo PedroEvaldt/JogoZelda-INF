@@ -138,6 +138,15 @@ void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMon
     atualizarbarra(barra);
 }
 
+void reiniciarMapa(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, int faseAtual)
+{
+    //Retorna as posições iniciais no mapa
+    *mapa = carregarMapa(faseAtual); 
+    *jogador = inicializarJogador(*mapa); 
+    *qtdMonstros = inicializarMonstros(*mapa,monstros);
+    *espada = inicializarespada(*mapa);
+    *quantidade_vidas = inicializarVida(*mapa, vidas);
+}
 
 bool todosMonstrosMortos (Monstro monstros[], int qnt){
     for (int i = 0; i < qnt; i++){
@@ -254,7 +263,7 @@ int main() {
                     Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
                     Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
 
-                    if (faseAtual == 10) {
+                    if ((faseAtual + 1) == 10) {
                         strcpy(nomejogador, pedirnomejogador());
                         jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
                         salvarScore(nomejogador, jogador.pontuacao);
@@ -263,6 +272,7 @@ int main() {
                     }
 
                     faseAtual++;
+                    reiniciarMapa(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, faseAtual-1);
 
                     descarregarTexturasMapa(&mapa);
                     descarregarJogador(&jogador);
