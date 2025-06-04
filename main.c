@@ -206,6 +206,7 @@ int main() {
             case GAMEOVER:
                     jogador.pontuacao = barra.escore; //Salva a pontuação do jogador
                     exibirGameOver(&jogador, &tela,fonte_gameover, fonte_escrita);
+                    reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
                     break;
 
             case JOGO:
