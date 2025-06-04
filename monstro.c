@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "monstro.h"
 #include "jogador.h"
+#include "caminho.h"
+
 
 int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
     int contador = 0;
@@ -23,11 +25,8 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
             }
         }
     }
-    
-
     return contador;
 }
-
 void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra) {
     int raio_perseguir = 7;
 
@@ -42,17 +41,31 @@ void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Bar
         int novoY = monstros[i].y;
 
         if (distancia <= raio_perseguir) {
-            // Movimento inteligente em direção ao jogador
-            if (abs(dx) > abs(dy)) {
-                novoX += (dx > 0) ? 1 : -1;
-                monstros[i].direcao = (dx > 0) ? 'L' : 'O';
-            } else if (dy != 0) {
-                novoY += (dy > 0) ? 1 : -1;
-                monstros[i].direcao = (dy > 0) ? 'S' : 'N';
+            // Se o jogador estiver perto, usamos A* para buscar caminho
+            int proximoX, proximoY;
+            bool caminho_encontrado = encontrarCaminho(mapa, monstros[i].x, monstros[i].y, jogador->x, jogador->y, &proximoX, &proximoY);
+
+            if (caminho_encontrado) {
+                novoX = proximoX;
+                novoY = proximoY;
+            
+                // Atualiza a direção com base no movimento
+                if (novoX > monstros[i].x) monstros[i].direcao = 'L';
+                else if (novoX < monstros[i].x) monstros[i].direcao = 'O';
+                else if (novoY > monstros[i].y) monstros[i].direcao = 'S';
+                else if (novoY < monstros[i].y) monstros[i].direcao = 'N';
+            } else {
+                // Caso não encontre caminho, tenta movimento aleatório
+                int dir = rand() % 4;
+                switch (dir) {
+                    case 0: novoY--; monstros[i].direcao = 'N'; break;
+                    case 1: novoY++; monstros[i].direcao = 'S'; break;
+                    case 2: novoX--; monstros[i].direcao = 'O'; break;
+                    case 3: novoX++; monstros[i].direcao = 'L'; break;
+                }
             }
-        } 
-        else {
-            // Movimento aleatório
+        } else {
+            // Se o jogador estiver longe, movimento aleatório
             int dir = rand() % 4;
             switch (dir) {
                 case 0: novoY--; monstros[i].direcao = 'N'; break;
@@ -60,12 +73,13 @@ void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Bar
                 case 2: novoX--; monstros[i].direcao = 'O'; break;
                 case 3: novoX++; monstros[i].direcao = 'L'; break;
             }
+            
         }
 
-        // Verifica se destino é válido e não é parede
+        // Verifica se o novo destino é válido
         if (novoX >= 0 && novoX < COLUNAS && novoY >= 0 && novoY < LINHAS && mapa.celulas[novoY][novoX] != 'P') {
 
-            // Verifica colisão com jogador
+            // Verifica colisão com o jogador
             if (novoX == jogador->x && novoY == jogador->y) {
                 if (GetTime() - jogador->tempo_ultimo_dano > 1.0) {
                     jogador->vidas--;
@@ -84,17 +98,19 @@ void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Bar
                         jogador->y = destinoY;
                     }
                 }
-                // Monstro não se move se colidir com jogador
             } else {
-                // Move monstro
+                // Move o monstro para o novo local
                 monstros[i].x = novoX;
                 monstros[i].y = novoY;
             }
         }
 
+        // Se jogador morreu, não faz mais nada
         if (jogador->vidas <= 0) return;
     }
+    
 }
+
 
 void desenharMonstros(Monstro monstros[], int qtd) {
     for (int i = 0; i < qtd; i++) {
@@ -114,4 +130,5 @@ void desenharMonstros(Monstro monstros[], int qtd) {
             Vector2 origin = { 0.0f, 0.0f };
             DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);}
         }
-}
+    }
+        

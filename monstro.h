@@ -1,5 +1,6 @@
 #ifndef MONSTRO_H
     #define MONSTRO_H
+    #define MAX_CELULAS 500
     #include "mapa.h"
     #include "raylib.h"
     #include <stdlib.h>
@@ -19,7 +20,7 @@
         Texture2D monstro_leste;
         Texture2D monstro_oeste;
     } Monstro;
-
+    
     int inicializarMonstros(Mapa mapa, Monstro monstros[]);
     void moverMonstros(Monstro monstros[], int qtd, Mapa mapa, Jogador *jogador, Barra *barra);
     void desenharMonstros(Monstro monstros[], int qtd);

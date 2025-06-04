@@ -9,6 +9,7 @@
 #include "atualizarstatus.h"
 #include "menuprincipal.h"
 #include "score.h"
+#include "caminho.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>

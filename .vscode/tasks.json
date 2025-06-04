@@ -17,6 +17,7 @@
         "atualizarstatus.c",
         "menuprincipal.c",
         "score.c",
+        "caminho.c",
         "-o",
         "zelda.exe",
         "-I",
