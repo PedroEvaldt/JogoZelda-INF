@@ -15,7 +15,7 @@
 #include <time.h>
 
 typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
-#define VELOCIDADE_MONSTROS 0.5
+#define VELOCIDADE_MONSTROS 1
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
 #define VELOCIDADE_TELA 120 // FPS
@@ -81,7 +81,7 @@ void exibirvitoria(Jogador *jogador, TelaDoJogo *tela, Font fonte_vitoria, Font 
         }
     }
 }
-void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita) {
+int exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita) {
     
     while (!WindowShouldClose()){
         BeginDrawing();
@@ -113,18 +113,18 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Fon
         EndDrawing();
 
         if (IsKeyPressed(KEY_SPACE)) {
-            *tela = MENU;
-            break;
+            return 10;
         }
     }
 }
 
+int faseinicial = 1;
 
 
-void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
+void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseinicial)
 {
     //Retorna as posições iniciais no mapa
-    *mapa = carregarMapa(faseAtual); 
+    *mapa = carregarMapa(faseinicial); 
     *jogador = inicializarJogador(*mapa); 
     *qtdMonstros = inicializarMonstros(*mapa,monstros);
     *espada = inicializarespada(*mapa);
@@ -138,6 +138,15 @@ void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMon
     atualizarbarra(barra);
 }
 
+void reiniciarMapa(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, int faseAtual)
+{
+    //Retorna as posições iniciais no mapa
+    *mapa = carregarMapa(faseAtual); 
+    *jogador = inicializarJogador(*mapa); 
+    *qtdMonstros = inicializarMonstros(*mapa,monstros);
+    *espada = inicializarespada(*mapa);
+    *quantidade_vidas = inicializarVida(*mapa, vidas);
+}
 
 bool todosMonstrosMortos (Monstro monstros[], int qnt){
     for (int i = 0; i < qnt; i++){
@@ -186,7 +195,7 @@ int main() {
                 if(aux == 1){ // Pede nome do jogador
                     space = exibirTelaInfo();
                     if(space == 4) {
-                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
+                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseinicial);
                         tempoUltimoMovimento = 0.0f;
                         tela = JOGO;
                     }
@@ -205,7 +214,12 @@ int main() {
 
             case GAMEOVER:
                     jogador.pontuacao = barra.escore; //Salva a pontuação do jogador
-                    exibirGameOver(&jogador, &tela,fonte_gameover, fonte_escrita);
+                    faseAtual = 1;
+                    aux = exibirGameOver(&jogador, &tela,fonte_gameover, fonte_escrita);
+                    if(aux == 10){
+                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseinicial);
+                        tela = MENU;
+                    }
                     break;
 
             case JOGO:
@@ -249,7 +263,7 @@ int main() {
                     Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
                     Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
 
-                    if (faseAtual == 10) {
+                    if ((faseAtual + 1) == 10) {
                         strcpy(nomejogador, pedirnomejogador());
                         jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
                         salvarScore(nomejogador, jogador.pontuacao);
@@ -258,6 +272,7 @@ int main() {
                     }
 
                     faseAtual++;
+                    reiniciarMapa(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, faseAtual-1);
 
                     descarregarTexturasMapa(&mapa);
                     descarregarJogador(&jogador);
