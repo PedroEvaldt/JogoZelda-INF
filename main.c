@@ -47,7 +47,7 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
     }
 }
 
-void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font font_pontuacao) {
+void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita) {
     
     while (!WindowShouldClose()){
         BeginDrawing();
@@ -66,15 +66,15 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Fon
             sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
             float tamanhoFonteScore = 30;
             float espacamentoScore = 1.0f;
-            Vector2 tamanhoTextoScore = MeasureTextEx(font_pontuacao, pontuacao, tamanhoFonteScore, espacamentoScore);
-            DrawTextEx(font_pontuacao, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
+            Vector2 tamanhoTextoScore = MeasureTextEx(fonte_escrita, pontuacao, tamanhoFonteScore, espacamentoScore);
+            DrawTextEx(fonte_escrita, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
 
             // Instrução
             const char *instrucao = "Pressione ESPACO para voltar ao menu";
             float tamanhoFonteInstrucao = 20;
             float espacamentoMsg = 0.7f;
-            Vector2 tamanhoTextoMsg = MeasureTextEx(font_pontuacao, instrucao, tamanhoFonteInstrucao, espacamentoMsg);
-            DrawTextEx(font_pontuacao, instrucao, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucao, espacamentoMsg, WHITE);
+            Vector2 tamanhoTextoMsg = MeasureTextEx(fonte_escrita, instrucao, tamanhoFonteInstrucao, espacamentoMsg);
+            DrawTextEx(fonte_escrita, instrucao, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucao, espacamentoMsg, WHITE);
 
         EndDrawing();
 
@@ -137,7 +137,7 @@ int main() {
     TelaDoJogo tela = MENU;
 
     Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
-    Font font_pontuacao = LoadFont("Fontes/PressStart2P.ttf");
+    Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
 
     Vida vidas[100]; 
     int quantidade_vidas = inicializarVida(mapa, vidas); // Inicializa vidas
@@ -172,7 +172,7 @@ int main() {
 
             case GAMEOVER:
                     jogador.pontuacao = barra.escore; //Salva a pontuação do jogador
-                    exibirGameOver(&jogador, &tela,fonte_gameover, font_pontuacao);
+                    exibirGameOver(&jogador, &tela,fonte_gameover, fonte_escrita);
                     break;
 
             case JOGO:
@@ -254,7 +254,7 @@ int main() {
         descarregarMonstros(monstros, qtdMonstros);
         UnloadTexture(sprite);
         UnloadFont(fonte_gameover);
-        UnloadFont(font_pontuacao);
+        UnloadFont(fonte_escrita);
 
         CloseWindow(); // Fecha janela
         return 0;
