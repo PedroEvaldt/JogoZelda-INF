@@ -15,10 +15,10 @@
 #include <time.h>
 
 typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
-#define VELOCIDADE_MONSTROS 0.5
+#define VELOCIDADE_MONSTROS 5
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
-#define VELOCIDADE_TELA 120 // FPS
+#define VELOCIDADE_TELA 200 // FPS
 
 // Funções para descarregar texturas
 void descarregarJogador(Jogador *j) {
@@ -132,10 +132,10 @@ void TelaCarregamento(int faseAtual)
 }
 
 
-void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
+void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int *faseAtual)
 {
-    faseAtual = 1;
-    *mapa = carregarMapa(faseAtual); 
+    *faseAtual = 1;
+    *mapa = carregarMapa(*faseAtual); 
     *jogador = inicializarJogador(*mapa); 
     *qtdMonstros = inicializarMonstros(*mapa,monstros);
     *espada = inicializarespada(*mapa);
@@ -192,9 +192,9 @@ int main() {
                 if (retornoMenu == 1) {
                     retornoTelaInfo = exibirTelaInfo();
                     if (retornoTelaInfo == 4) {
-                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
+                        reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, &faseAtual);
                         tempoUltimoMovimento = 0.0f;
-                        TelaCarregamento(1);
+                        TelaCarregamento(faseAtual);
                         tela = JOGO;
                     }
                 } else if (retornoMenu == 2) {
@@ -265,26 +265,23 @@ int main() {
                 }
 
                 if (todosMonstrosMortos(monstros, qtdMonstros)) {
-
-                        faseAtual++;
-
-                    if (faseAtual == 11) {
+                    printf("Carregando fase %d...\n", faseAtual);
+                    printf("Monstros inicializados: %d\n", qtdMonstros);
+                    if (faseAtual > 10) {
+                        printf("Carregando fase %d...\n", faseAtual);
                         strcpy(nomejogador, pedirnomejogador());
                         jogador.pontuacao = barra.escore;
                         salvarScore(nomejogador, jogador.pontuacao);
                         exibirvitoria(&jogador, &tela, fonte_gameover, fonte_escrita, nomejogador);
                         descarregarMonstros(monstros, qtdMonstros);
-                        descarregarVidas(vidas, quantidade_vidas);
                         descarregarJogador(&jogador);
                         descarregarEspada(&espada);
                         faseAtual = 1;
                         break;
                     }
 
-                    BeginDrawing();
-                    ClearBackground(BLACK);
-                        TelaCarregamento(faseAtual);
-                    EndDrawing();
+                    faseAtual++;
+                    TelaCarregamento(faseAtual);
 
                     descarregarTexturasMapa(&mapa);
                     descarregarJogador(&jogador);
