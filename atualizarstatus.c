@@ -28,6 +28,15 @@ void atualizarespada(Espada *espada, Jogador *jogador, Barra *barra) {
         barra->escore += VALOR_ESPADA; // Incrementa o escore do jogador
         atualizarbarra(barra); // Atualiza a barra de status
         sprintf(barra->escorestr, "ESCORE: %d", barra->escore);
+        UnloadTexture(jogador->jogador_sul);
+        UnloadTexture(jogador->jogador_leste);
+        UnloadTexture(jogador->jogador_oeste);
+        UnloadTexture(jogador->jogador_norte);
+
+        jogador->jogador_sul   = LoadTexture("sprites/jogador-sul-espada.png");
+        jogador->jogador_norte = LoadTexture("sprites/jogador-norte.png"); // supondo que o norte é o mesmo
+        jogador->jogador_leste = LoadTexture("sprites/jogador-leste-espada.png");
+        jogador->jogador_oeste = LoadTexture("sprites/jogador-oeste-espada.png");
     }
 }
 

@@ -28,7 +28,7 @@ Mapa carregarMapa(int fase) {
     mapa.parede = LoadTexture("sprites/parede.png");
     mapa.espada = LoadTexture("sprites/espada.png");
     mapa.vida = LoadTexture("sprites/vida.png");
-    mapa.chao = LoadTexture("sprites/chao.png");
+    mapa.chao = LoadTexture("sprites/background-generico.png");
     return mapa;
 }
 

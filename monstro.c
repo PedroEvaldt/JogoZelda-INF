@@ -16,11 +16,11 @@ int inicializarMonstros(Mapa mapa, Monstro monstros[]) {
                 monstros[contador].direcao = 'N';
                 monstros[contador].pontuacao = rand() % 101;
                 monstros[contador].ativo = true;
-                monstros[contador].monstro = LoadTexture("sprites/monstro.png");
-                monstros[contador].monstro_norte = LoadTexture("sprites/monstro-norte.png");
-                monstros[contador].monstro_sul = LoadTexture("sprites/monstro-sul.png");
-                monstros[contador].monstro_leste = LoadTexture("sprites/monstro-leste.png");
-                monstros[contador].monstro_oeste = LoadTexture("sprites/monstro-oeste.png");
+                monstros[contador].monstro = LoadTexture("sprites/monstro_sul.png");
+                monstros[contador].monstro_norte = LoadTexture("sprites/monstro_norte.png");
+                monstros[contador].monstro_sul = LoadTexture("sprites/monstro_sul.png");
+                monstros[contador].monstro_leste = LoadTexture("sprites/monstro_leste.png");
+                monstros[contador].monstro_oeste = LoadTexture("sprites/monstro_oeste.png");
                 contador++;
             }
         }
