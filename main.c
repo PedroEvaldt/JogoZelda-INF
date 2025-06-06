@@ -48,6 +48,7 @@ void descarregarMonstros(Monstro monstros[], int qtd) {
     }
 }
 
+
 void exibirvitoria(Jogador *jogador, TelaDoJogo *tela, Font fonte_vitoria, Font fonte_escrita, char *nomejogador) {
     while (!WindowShouldClose()){
         BeginDrawing();
@@ -123,6 +124,7 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Fon
 
 void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
 {
+    faseAtual = 1;
     //Retorna as posições iniciais no mapa
     *mapa = carregarMapa(faseAtual); 
     *jogador = inicializarJogador(*mapa); 
@@ -150,163 +152,183 @@ bool todosMonstrosMortos (Monstro monstros[], int qnt){
 
 
 int main() {
-    InitWindow(LARGURA_TELA, ALTURA_TELA, "Zelda-INF"); // Cria janela principal
-    SetTargetFPS(VELOCIDADE_TELA); // Define FPS fixo
-    
+    InitWindow(LARGURA_TELA, ALTURA_TELA, "Zelda-INF");
+    SetTargetFPS(VELOCIDADE_TELA);
 
+    // === Variáveis principais do jogo ===
+    TelaDoJogo tela = MENU;
     int faseAtual = 1;
     int aux = 0, space = 0;
+    char nomejogador[21] = "";
 
     Texture2D sprite = LoadTexture("sprites/espada.png");
-    Mapa mapa = carregarMapa(faseAtual); // Carrega mapa da fase
-    Jogador jogador = inicializarJogador(mapa); // Define posição do jogador
-    Monstro monstros[10]; // Até 10 monstros por fase
-    Espada espada = inicializarespada(mapa); // Inicializa espada
+    Mapa mapa = carregarMapa(faseAtual);
+    Jogador jogador = inicializarJogador(mapa);
+    Monstro monstros[10];
+    Espada espada = inicializarespada(mapa);
     int qtdMonstros = inicializarMonstros(mapa, monstros);
     float tempoUltimoMovimento = 0.0f;
     float intervaloMovimento = VELOCIDADE_MONSTROS;
-    char nomejogador[21] = "";
 
+    Vida vidas[100];
+    int quantidade_vidas = inicializarVida(mapa, vidas);
 
-    TelaDoJogo tela = MENU;
+    Barra barra = {3, 1, 0, false};
+    atualizarbarra(&barra);
 
-    Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
+    Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF");
     Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
 
-    Vida vidas[100]; 
-    int quantidade_vidas = inicializarVida(mapa, vidas); // Inicializa vidas
-  
-    Barra barra = {3, 1, 0, false};
-    atualizarbarra(&barra); // Atualiza a barra de status
-
-    while (!WindowShouldClose()) { // Loop principal do jogo
+    // === Loop principal do jogo ===
+    while (!WindowShouldClose()) {
         switch(tela) {
             case MENU:
                 aux = exibirMenuPrincipal();
-                if(aux == 1){ // Pede nome do jogador
+                if (aux == 1) {
                     space = exibirTelaInfo();
-                    if(space == 4) {
+                    if (space == 4) {
                         reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
                         tempoUltimoMovimento = 0.0f;
                         tela = JOGO;
                     }
-                }
-                else if(aux == 2){
+                } else if (aux == 2) {
                     space = mostrarTop5();
-                    if (space == 1){
-                        tela = MENU;
-                    }
-                }
-                else if(aux == 3){
+                    if (space == 1) tela = MENU;
+                } else if (aux == 3) {
                     CloseWindow();
                     return 0;
                 }
-                break;     
+                break;
 
             case GAMEOVER:
-                    jogador.pontuacao = barra.escore; //Salva a pontuação do jogador
-                    exibirGameOver(&jogador, &tela,fonte_gameover, fonte_escrita);
-                    break;
+                jogador.pontuacao = barra.escore;
+                descarregarMonstros(monstros, qtdMonstros);
+                descarregarVidas(vidas, quantidade_vidas);
+                descarregarJogador(&jogador);
+                descarregarEspada(&espada);
+                exibirGameOver(&jogador, &tela, fonte_gameover, fonte_escrita);
+                faseAtual = 1;
+                break;
 
             case JOGO:
                 BeginDrawing();
                 ClearBackground(BLACK);
-                desenharMapa(mapa); // Renderiza mapa
+
+                // === Atualizações de jogo ===
+                desenharMapa(mapa);
                 desenharbarra(barra);
-                atualizarbarra(&barra); // Desenha a barra de status
-                atualizarJogador(&jogador, mapa, monstros, qtdMonstros, &barra); // Atualiza posição do jogador
-        
-                
+                atualizarbarra(&barra);
+                atualizarJogador(&jogador, mapa, monstros, qtdMonstros, &barra);
+
                 desenharespada(espada);
                 atualizarespada(&espada, &jogador, &barra);
-                int qntmonstros_mortos = ataqueEspada(&espada, &jogador, &mapa, qtdMonstros, monstros); // Atualiza espada do jogador
-                atualizarscore(&barra, qntmonstros_mortos); // Atualiza escore do jogador
-                atualizarvida(&jogador, vidas, &barra, quantidade_vidas); // Atualiza vidas do jogador
-                desenharVida(vidas, quantidade_vidas); 
 
-                float tempoAtual = GetTime();  // tempo desde que o jogo iniciou (em segundos)
+                int monstrosMortos = ataqueEspada(&espada, &jogador, &mapa, qtdMonstros, monstros);
+                atualizarscore(&barra, monstrosMortos);
+
+                atualizarvida(&jogador, vidas, &barra, quantidade_vidas);
+                desenharVida(vidas, quantidade_vidas);
+
+                float tempoAtual = GetTime();
                 if (tempoAtual - tempoUltimoMovimento >= intervaloMovimento) {
-                    moverMonstros(monstros, qtdMonstros, mapa, &jogador, &barra); // só move se passou o intervalo
-                    tempoUltimoMovimento = tempoAtual; // reinicia o contador
+                    moverMonstros(monstros, qtdMonstros, mapa, &jogador, &barra);
+                    tempoUltimoMovimento = tempoAtual;
                 }
 
-                desenharJogador(jogador); // Desenha jogador
-                desenharMonstros(monstros, qtdMonstros); // Desenha inimigos
+                desenharJogador(jogador);
+                desenharMonstros(monstros, qtdMonstros);
 
-                if(IsKeyPressed(KEY_TAB)) //Abre o menu do jogo caso clique TAB
-                    {
-                        aux = exibirMenuJogo();
-                        if(aux == 5)
-                            break;
-                        else if(aux==6)
-                            tela = MENU;
-                        else if(aux==7)
-                            CloseWindow();
+                // === Menu pause ===
+                if (IsKeyPressed(KEY_TAB)) {
+                    aux = exibirMenuJogo();
+                    if (aux == 6) {
+                        /*for (int i = 0; i < faseAtual + 1; i ++){
+                            reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, i);
+                        } */
+                        descarregarMonstros(monstros, qtdMonstros);
+                        descarregarVidas(vidas, quantidade_vidas);
+                        descarregarJogador(&jogador);
+                        descarregarEspada(&espada);
+                        faseAtual = 1;
+                        tela = MENU;
                     }
-                
-                if (todosMonstrosMortos(monstros, qtdMonstros)){
+                    else if (aux == 7) {
+                        descarregarMonstros(monstros, qtdMonstros);
+                        descarregarVidas(vidas, quantidade_vidas);
+                        descarregarJogador(&jogador);
+                        descarregarEspada(&espada);
+                        faseAtual = 1;
+                        CloseWindow();
+                }}
 
-                    Font fonte_gameover = LoadFont("Fontes/GAMEOVER.TTF"); 
-                    Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
+                // === Fim de fase ===
+                if (todosMonstrosMortos(monstros, qtdMonstros)) {
 
-                    if (faseAtual == 10) {
+                // === Ganhou o jogo ===
+                    if (faseAtual == 2) {
                         strcpy(nomejogador, pedirnomejogador());
-                        jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
+                        jogador.pontuacao = barra.escore;
                         salvarScore(nomejogador, jogador.pontuacao);
                         exibirvitoria(&jogador, &tela, fonte_gameover, fonte_escrita, nomejogador);
+                        descarregarMonstros(monstros, qtdMonstros);
+                        descarregarVidas(vidas, quantidade_vidas);
+                        descarregarJogador(&jogador);
+                        descarregarEspada(&espada);
+                        faseAtual = 1;
                         break;
                     }
 
+                    // Avança para próxima fase
                     faseAtual++;
+
+                    BeginDrawing();
+                    ClearBackground(BLACK);
+                    DrawText("CARREGANDO...", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2, 40, WHITE);
+                    EndDrawing();
 
                     descarregarTexturasMapa(&mapa);
                     descarregarJogador(&jogador);
                     descarregarEspada(&espada);
                     descarregarVidas(vidas, quantidade_vidas);
                     descarregarMonstros(monstros, qtdMonstros);
-                    UnloadTexture(sprite);
 
                     mapa = carregarMapa(faseAtual);
-                    int vidas_faseatual = jogador.vidas;
-                    int score_jogador = jogador.pontuacao;
+                    int vidas_restantes = jogador.vidas;
+                    int score_atual = jogador.pontuacao;
+
                     jogador = inicializarJogador(mapa);
-                    jogador.vidas = vidas_faseatual;
-                    jogador.pontuacao = score_jogador;
+                    jogador.vidas = vidas_restantes;
+                    jogador.pontuacao = score_atual;
+
                     espada = inicializarespada(mapa);
-                    desenharespada(espada);
                     qtdMonstros = inicializarMonstros(mapa, monstros);
-                    int vidas_fase = inicializarVida(mapa, vidas);
-                    barra.espada = false; // Reseta a espada
+                    quantidade_vidas = inicializarVida(mapa, vidas);
+                    barra.espada = false;
                     barra.nivel = faseAtual;
                     atualizarbarra(&barra);
                 }
 
-                if (jogador.vidas <= 0) { 
-                    jogador.pontuacao = barra.escore; // Salva a pontuação do jogador
-                    salvarScore(nomejogador, jogador.pontuacao); // Salva pontuação no arquivo
-                    tela = GAMEOVER; 
-                    break;
+                // === Game Over ===
+                if (jogador.vidas <= 0) {
+                    jogador.pontuacao = barra.escore;
+                    tela = GAMEOVER;
                 }
 
                 EndDrawing();
                 break;
         }
     }
-        descarregarTexturasMapa(&mapa);
-        descarregarJogador(&jogador);
-        descarregarEspada(&espada);
-        descarregarVidas(vidas, quantidade_vidas);
-        descarregarMonstros(monstros, qtdMonstros);
-        UnloadTexture(sprite);
-        UnloadFont(fonte_gameover);
-        UnloadFont(fonte_escrita);
 
-        CloseWindow(); // Fecha janela
-        return 0;
+    // === Fim do jogo: descarrega tudo ===
+    descarregarTexturasMapa(&mapa);
+    descarregarJogador(&jogador);
+    descarregarEspada(&espada);
+    descarregarVidas(vidas, quantidade_vidas);
+    descarregarMonstros(monstros, qtdMonstros);
+    UnloadTexture(sprite);
+    UnloadFont(fonte_gameover);
+    UnloadFont(fonte_escrita);
+    CloseWindow();
+
+    return 0;
 }
-
-
-
-    
-
-// Fim do código principal

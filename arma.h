@@ -1,4 +1,4 @@
-#ifndef ARMA_H
+/*#ifndef ARMA_H
     #define ARMA_H
     #include "raylib.h"
     #include "mapa.h"
@@ -19,3 +19,4 @@
     void atirarArma(arma *arma, Jogador *jogador, Monstro monstros[], qntmonstros, Mapa *mapa);
 #endif
 
+*/

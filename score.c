@@ -17,8 +17,9 @@ int comparar(const void *a, const void *b) {
 int mostrarTop5() {
     FILE *arquivo = fopen(ARQUIVO_SCORE, "r");
     if (!arquivo) {
-    printf("Erro ao abrir o arquivo de scores.\n");
-    return 0;}
+        printf("Erro ao abrir o arquivo de scores.\n");
+        return 0;
+    }
 
     Scores Scores[MAX_SCORES];
     int count = 0;
@@ -31,7 +32,7 @@ int mostrarTop5() {
     qsort(Scores, count, sizeof(Scores), comparar);
     
     while (!WindowShouldClose()) {
-    BeginDrawing();
+        BeginDrawing();
         ClearBackground(BLACK);
         DrawText("TOP 5 SCORES", 450, 100, 40, WHITE);
         for (int i = 0; i < count && i < 5; i++) {
@@ -40,11 +41,11 @@ int mostrarTop5() {
             DrawText(buffer, 400, 160 + i * 40, 30, WHITE);
         }
         DrawText("Pressione ESPACO para voltar", 400, 400, 20, RAYWHITE);
-    EndDrawing();
+        EndDrawing();
 
+        if (IsKeyPressed(KEY_SPACE))
+            return 1;
+    }
 
-    if (IsKeyPressed(KEY_SPACE))
-    return 1;
-}
     return 0;
 }

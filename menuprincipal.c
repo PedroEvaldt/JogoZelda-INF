@@ -173,7 +173,7 @@ char* pedirnomejogador(){
         BeginDrawing();
         ClearBackground(BLACK);
 
-        const char *digitar_nome = "Digite seu nome:";
+        const char *digitar_nome = "Digite seu nome sem espaco:";
         float tamanhoFontedigitarnome = 30;
         float espacamento = 0.7f;
         Vector2 tamanhoTextodigitarnome = MeasureTextEx(fonte_escrita, digitar_nome, tamanhoFontedigitarnome, espacamento);
@@ -182,7 +182,7 @@ char* pedirnomejogador(){
         Vector2 tamanhoTextonome = MeasureTextEx(fonte_escrita, nome, tamanhoFontenome, espacamento);
         DrawTextEx(fonte_escrita, nome, (Vector2){(LARGURA_TELA - tamanhoTextonome.x) / 2.0f, 200}, tamanhoFontenome, espacamento, RAYWHITE);
         //DrawText(nome, 450, 200, 30, RAYWHITE);
-        const char *enter = "Pressione ENTER para continuar";
+        const char *enter = "Pressione TAB para continuar";
         float tamanhoFonteenter = 15;
         Vector2 tamanhoTextoenter = MeasureTextEx(fonte_escrita, enter, tamanhoFonteenter, espacamento);
         DrawTextEx(fonte_escrita, enter, (Vector2){(LARGURA_TELA - tamanhoTextoenter.x) / 2.0f, 300}, tamanhoFonteenter, espacamento, GRAY);
@@ -199,8 +199,11 @@ char* pedirnomejogador(){
             nome[posicao] = '\0';
         }
         if (IsKeyPressed(KEY_ENTER)) {
-            break;
+            nome[posicao] = ' ';
+            posicao++;
+            nome[posicao] = '\0';
             }
+        if (IsKeyPressed(KEY_TAB)) break;
         }
         return nome;
 

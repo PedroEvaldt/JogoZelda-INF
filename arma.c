@@ -1,4 +1,4 @@
-#include "arma.h"
+/*#include "arma.h"
 #include "jogador.h"
 
 arma inicializarArma(Jogador *jogador){
@@ -70,4 +70,4 @@ void atirarArma(arma *arma, Jogador *jogador, Monstro monstros[], qntmonstros, M
                 }
             break;
             
-            }
+            }*/
