@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Executar Jogo",
-      "type": "cppvsdbg",
+      "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/zelda.exe",
       "cwd": "${workspaceFolder}",

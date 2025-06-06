@@ -112,6 +112,26 @@ void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Fon
     }
 }
 
+void TelaCarregamento(int faseAtual)
+{
+	double inicio = GetTime(); 
+	char texto[20];
+	
+	while(GetTime() - inicio < 1)
+	{
+		BeginDrawing();
+		ClearBackground(BLACK);
+	
+			sprintf(texto, "NIVEL %d", faseAtual);
+   	 		int tamanhoFonte = 50;
+            int larguraTexto = MeasureText(texto, tamanhoFonte);
+            DrawText(texto, (LARGURA_TELA - larguraTexto) / 2, (ALTURA_TELA - tamanhoFonte) / 2, tamanhoFonte, RAYWHITE);
+	
+		EndDrawing();
+	}
+}
+
+
 void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int faseAtual)
 {
     faseAtual = 1;
@@ -144,7 +164,7 @@ int main() {
 
     TelaDoJogo tela = MENU;
     int faseAtual = 1;
-    int aux = 0, space = 0;
+    int retornoMenu = 0, retornoTelaInfo = 0, retornoTelaScore = 0;
     char nomejogador[21] = "";
 
     Texture2D sprite = LoadTexture("sprites/espada.png");
@@ -168,18 +188,20 @@ int main() {
     while (!WindowShouldClose()) {
         switch(tela) {
             case MENU:
-                aux = exibirMenuPrincipal();
-                if (aux == 1) {
-                    space = exibirTelaInfo();
-                    if (space == 4) {
+                retornoMenu = exibirMenuPrincipal();
+                if (retornoMenu == 1) {
+                    retornoTelaInfo = exibirTelaInfo();
+                    if (retornoTelaInfo == 4) {
                         reiniciarJogo(&jogador, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, faseAtual);
                         tempoUltimoMovimento = 0.0f;
+                        TelaCarregamento(1);
                         tela = JOGO;
                     }
-                } else if (aux == 2) {
-                    space = mostrarTop5();
-                    if (space == 1) tela = MENU;
-                } else if (aux == 3) {
+                } else if (retornoMenu == 2) {
+                        retornoTelaScore = mostrarTop5();
+                       if (retornoTelaScore == 1) 
+                        tela = MENU;
+                } else if (retornoMenu == 3) {
                     CloseWindow();
                     return 0;
                 }
@@ -223,8 +245,8 @@ int main() {
                 desenharMonstros(monstros, qtdMonstros);
 
                 if (IsKeyPressed(KEY_TAB)) {
-                    aux = exibirMenuJogo();
-                    if (aux == 6) {
+                    retornoMenu = exibirMenuJogo();
+                    if (retornoMenu == 6) {
                         descarregarMonstros(monstros, qtdMonstros);
                         descarregarVidas(vidas, quantidade_vidas);
                         descarregarJogador(&jogador);
@@ -232,7 +254,7 @@ int main() {
                         faseAtual = 1;
                         tela = MENU;
                     }
-                    else if (aux == 7) {
+                    else if (retornoMenu == 7) {
                         descarregarMonstros(monstros, qtdMonstros);
                         descarregarVidas(vidas, quantidade_vidas);
                         descarregarJogador(&jogador);
@@ -243,7 +265,10 @@ int main() {
                 }
 
                 if (todosMonstrosMortos(monstros, qtdMonstros)) {
-                    if (faseAtual == 2) {
+
+                        faseAtual++;
+
+                    if (faseAtual == 11) {
                         strcpy(nomejogador, pedirnomejogador());
                         jogador.pontuacao = barra.escore;
                         salvarScore(nomejogador, jogador.pontuacao);
@@ -256,11 +281,9 @@ int main() {
                         break;
                     }
 
-                    faseAtual++;
-
                     BeginDrawing();
                     ClearBackground(BLACK);
-                    DrawText("CARREGANDO...", LARGURA_TELA / 2 - 100, ALTURA_TELA / 2, 40, WHITE);
+                        TelaCarregamento(faseAtual);
                     EndDrawing();
 
                     descarregarTexturasMapa(&mapa);

@@ -17,7 +17,7 @@ int exibirMenuPrincipal()
     bool BotaoSairPressionado = false;
 
     Texture2D jogador = LoadTexture("sprites/jogador-sul.png");
-    Texture2D monstro = LoadTexture("sprites/monstro-sul.png");
+    Texture2D monstro = LoadTexture("sprites/monstro_sul.png");
 
     while (!WindowShouldClose())
     {

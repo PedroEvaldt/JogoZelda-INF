@@ -23,7 +23,7 @@
         "-I",
         "C:/raylib/raylib/src",
         "-L",
-        "C:/raylib/raylib/src",
+        "C:/raylib/raylib/lib",
         "-lraylib",
         "-lopengl32",
         "-lgdi32",
@@ -32,7 +32,8 @@
       "group": {
         "kind": "build",
         "isDefault": true
-      }
+      },
+      "problemMatcher": []
     }
   ]
 }
