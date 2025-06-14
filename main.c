@@ -15,7 +15,7 @@
 #include <time.h>
 
 typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
-#define VELOCIDADE_MONSTROS 5
+#define VELOCIDADE_MONSTROS 0.5
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
 #define VELOCIDADE_TELA 200 // FPS
@@ -79,37 +79,21 @@ void exibirvitoria(Jogador *jogador, TelaDoJogo *tela, Font fonte_vitoria, Font 
         }
     }
 }
-void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita) {
-    while (!WindowShouldClose()){
-        BeginDrawing();
-        ClearBackground(BLACK);
 
-        const char *titulo = "GAME OVER";
-        float tamanhoFonteTitulo = 50;
-        float espacamento = 2.0f;
-        Vector2 tamanhoTexto = MeasureTextEx(fonte_gameover, titulo, tamanhoFonteTitulo, espacamento);
-        DrawTextEx(fonte_gameover, titulo, (Vector2){(LARGURA_TELA - tamanhoTexto.x) / 2.0f, 300}, tamanhoFonteTitulo, espacamento, RED);
+void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int *faseAtual)
+{
+    *faseAtual = 1;
+    *mapa = carregarMapa(*faseAtual); 
+    *jogador = inicializarJogador(*mapa); 
+    *qtdMonstros = inicializarMonstros(*mapa,monstros);
+    *espada = inicializarespada(*mapa);
+    *quantidade_vidas = inicializarVida(*mapa, vidas);
 
-        char pontuacao[50];
-        sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
-        float tamanhoFonteScore = 30;
-        float espacamentoScore = 1.0f;
-        Vector2 tamanhoTextoScore = MeasureTextEx(fonte_escrita, pontuacao, tamanhoFonteScore, espacamentoScore);
-        DrawTextEx(fonte_escrita, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
-
-        const char *instrucao = "Pressione ESPACO para voltar ao menu";
-        float tamanhoFonteInstrucao = 20;
-        float espacamentoMsg = 0.7f;
-        Vector2 tamanhoTextoMsg = MeasureTextEx(fonte_escrita, instrucao, tamanhoFonteInstrucao, espacamentoMsg);
-        DrawTextEx(fonte_escrita, instrucao, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucao, espacamentoMsg, WHITE);
-
-        EndDrawing();
-
-        if (IsKeyPressed(KEY_SPACE)) {
-            *tela = MENU;
-            break;
-        }
-    }
+    barra->vidas = 3; 
+    barra->nivel= 1; 
+    barra->escore = 0;
+    barra->espada = false; 
+    atualizarbarra(barra);
 }
 
 void TelaCarregamento(int faseAtual)
@@ -131,21 +115,51 @@ void TelaCarregamento(int faseAtual)
 	}
 }
 
+void exibirGameOver(Jogador *jogador, TelaDoJogo *tela, Font fonte_gameover, Font fonte_escrita, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int *faseAtual) {
+    while (!WindowShouldClose()){
+        BeginDrawing();
+        ClearBackground(BLACK);
 
-void reiniciarJogo(Jogador *jogador, Mapa *mapa, Monstro monstros[], int *qtdMonstros, Espada *espada, Vida vidas[], int *quantidade_vidas, Barra *barra, int *faseAtual)
-{
-    *faseAtual = 1;
-    *mapa = carregarMapa(*faseAtual); 
-    *jogador = inicializarJogador(*mapa); 
-    *qtdMonstros = inicializarMonstros(*mapa,monstros);
-    *espada = inicializarespada(*mapa);
-    *quantidade_vidas = inicializarVida(*mapa, vidas);
+        const char *titulo = "GAME OVER";
+        float tamanhoFonteTitulo = 50;
+        float espacamento = 2.0f;
+        Vector2 tamanhoTexto = MeasureTextEx(fonte_gameover, titulo, tamanhoFonteTitulo, espacamento);
+        DrawTextEx(fonte_gameover, titulo, (Vector2){(LARGURA_TELA - tamanhoTexto.x) / 2.0f, 300}, tamanhoFonteTitulo, espacamento, RED);
 
-    barra->vidas = 3; 
-    barra->nivel= 1; 
-    barra->escore = 0;
-    barra->espada = false; 
-    atualizarbarra(barra);
+        char pontuacao[50];
+        sprintf(pontuacao, "SCORE: %d", jogador->pontuacao);
+        float tamanhoFonteScore = 30;
+        float espacamentoScore = 1.0f;
+        Vector2 tamanhoTextoScore = MeasureTextEx(fonte_escrita, pontuacao, tamanhoFonteScore, espacamentoScore);
+        DrawTextEx(fonte_escrita, pontuacao, (Vector2){(LARGURA_TELA - tamanhoTextoScore.x) / 2.0f, 380}, tamanhoFonteScore, espacamentoScore, WHITE);
+
+        const char *instrucaoMenu = "Pressione ESPACO para voltar ao menu";
+        float tamanhoFonteInstrucaoMenu = 20;
+        float espacamentoMsg = 0.7f;
+        Vector2 tamanhoTextoMsg = MeasureTextEx(fonte_escrita, instrucaoMenu, tamanhoFonteInstrucaoMenu, espacamentoMsg);
+        DrawTextEx(fonte_escrita, instrucaoMenu, (Vector2){(LARGURA_TELA - tamanhoTextoMsg.x) / 2.0f, 480}, tamanhoFonteInstrucaoMenu, espacamentoMsg, WHITE);
+
+        const char *instrucaoReiniciar = "Pressione R para reiniciar o jogo";
+        float tamanhoFonteReiniciar = 20;
+        float espacamentoReiniciar = 0.7f;
+        Vector2 tamanhoTextoReiniciar = MeasureTextEx(fonte_escrita, instrucaoReiniciar, tamanhoFonteReiniciar, espacamentoReiniciar);
+        DrawTextEx(fonte_escrita, instrucaoReiniciar, (Vector2){(LARGURA_TELA - tamanhoTextoReiniciar.x) / 2.0f, 580}, tamanhoFonteReiniciar, espacamentoReiniciar, WHITE);
+
+
+        EndDrawing();
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            *tela = MENU;
+            break;
+        }
+
+        if(IsKeyPressed(KEY_R)){
+            reiniciarJogo(jogador, mapa, monstros, qtdMonstros, espada, vidas, quantidade_vidas, barra, faseAtual);
+            TelaCarregamento(*faseAtual);
+            *tela = JOGO;
+            break;
+        }
+    }
 }
 
 bool todosMonstrosMortos(Monstro monstros[], int qnt){
@@ -213,7 +227,7 @@ int main() {
                 descarregarVidas(vidas, quantidade_vidas);
                 descarregarJogador(&jogador);
                 descarregarEspada(&espada);
-                exibirGameOver(&jogador, &tela, fonte_gameover, fonte_escrita);
+                exibirGameOver(&jogador, &tela, fonte_gameover, fonte_escrita, &mapa, monstros, &qtdMonstros, &espada, vidas, &quantidade_vidas, &barra, &faseAtual);
                 faseAtual = 1;
                 break;
 

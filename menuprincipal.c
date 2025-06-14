@@ -3,6 +3,7 @@
 
 int exibirMenuPrincipal()
 {   
+
     Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
     Color CorBotao = GRAY;
     Color CorMouseBotao = WHITE;
@@ -10,11 +11,13 @@ int exibirMenuPrincipal()
 
     Rectangle BotaoIniciar = {LARGURA_TELA / 2 - 100, 300, 200, 60};
     Rectangle BotaoScore = {LARGURA_TELA / 2 - 100, 450, 200, 60};
-    Rectangle BotaoSair = {LARGURA_TELA / 2 - 100, 600, 200, 60};   
+    Rectangle BotaoSair = {LARGURA_TELA / 2 - 100, 600, 200, 60};
+    Rectangle BotaoTutorial = {20, 800, 200, 60};     
 
     bool BotaoIniciarPressionado = false;
     bool BotaoScorePressionado = false;
     bool BotaoSairPressionado = false;
+    bool BotaoTutorialPressionado = false;
 
     Texture2D jogador = LoadTexture("sprites/jogador-sul.png");
     Texture2D monstro = LoadTexture("sprites/monstro_sul.png");
@@ -92,13 +95,13 @@ int exibirMenuPrincipal()
         
         BeginDrawing();
             ClearBackground(BLACK);
-            
+
             Vector2 posicaoJ = {180,290};
             Vector2 posicaoM = {870,300};
-            DrawTextureEx(jogador,posicaoJ,0,0.5,WHITE);
-            DrawTextureEx(monstro,posicaoM,0,0.55,WHITE);
+            DrawTextureEx(jogador,posicaoJ,0,0.55,WHITE);
+            DrawTextureEx(monstro,posicaoM,0,0.5,WHITE);
             const char *menu_principal = "MENU PRINCIPAL";
-            float tamanhoFonteMENUPRINCIPAL = 30;
+            float tamanhoFonteMENUPRINCIPAL = 50;
             float espacamento = 0.7f;
             Vector2 tamanhoTextomenu = MeasureTextEx(fonte_escrita, menu_principal, tamanhoFonteMENUPRINCIPAL, espacamento);
             DrawTextEx(fonte_escrita, menu_principal, (Vector2){(LARGURA_TELA - tamanhoTextomenu.x) / 2.0f, 50}, tamanhoFonteMENUPRINCIPAL, espacamento, WHITE);
@@ -124,6 +127,7 @@ int exibirMenuPrincipal()
 
 int exibirTelaInfo()
 {   
+
     Font fonte_escrita = LoadFont("Fontes/PressStart2P.ttf");
     float espacamento = 0.7f;
     while(!WindowShouldClose()){
@@ -205,3 +209,4 @@ char* pedirnomejogador(){
         return nome;
 
     }
+
