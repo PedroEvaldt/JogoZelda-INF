@@ -6,7 +6,7 @@
     typedef struct {
         int x, y;
         bool ativa;
-        Texture2D vida_textura; // Textura da vida
+        Texture2D vida_textura; 
     }Vida;
 
     void desenharVida(Vida vidas[], int qtd);

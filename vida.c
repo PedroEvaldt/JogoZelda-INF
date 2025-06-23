@@ -22,8 +22,8 @@ void desenharVida(Vida vidas[], int qtd) {
     for (int i = 0; i < qtd; i++) {
         if (vidas[i].ativa) {
             Texture2D sprite = vidas[i].vida_textura;
-            Rectangle source = { 0.0f, 0.0f, (float)sprite.width, (float)sprite.height };
-            Rectangle dest = { vidas[i].x * TAM_CELULA, vidas[i].y * TAM_CELULA + TAM_MENUJOGO, TAM_CELULA, TAM_CELULA };
+            Rectangle source = { 0.0f, 0.0f, (float)sprite.width, (float)sprite.height }; //Desenha parte da imagem (Nesse caso está desenhando inteira)
+            Rectangle dest = { vidas[i].x * TAM_CELULA, vidas[i].y * TAM_CELULA + TAM_MENUJOGO, TAM_CELULA, TAM_CELULA }; //Onde a imagem vai aparecer na tela **TAM_MENUJOGO por conta da barra de status
             Vector2 origin = { 0.0f, 0.0f };
             DrawTexturePro(sprite, source, dest, origin, 0.0f, WHITE);
         }

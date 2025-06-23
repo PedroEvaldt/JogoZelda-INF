@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-typedef enum {MENU, JOGO, GAMEOVER} TelaDoJogo;
+typedef enum {MENU, SCORE, JOGO, GAMEOVER} TelaDoJogo;
 #define VELOCIDADE_MONSTROS 0.5
 #define LARGURA_TELA 1200
 #define ALTURA_TELA 860
@@ -212,13 +212,16 @@ int main() {
                         tela = JOGO;
                     }
                 } else if (retornoMenu == 2) {
-                        retornoTelaScore = mostrarTop5();
-                       if (retornoTelaScore == 1) 
-                        tela = MENU;
+                            tela = SCORE;
                 } else if (retornoMenu == 3) {
                     CloseWindow();
                     return 0;
                 }
+                break;
+            
+            case SCORE:
+                mostrarTop5();
+                tela = MENU;
                 break;
 
             case GAMEOVER:
@@ -279,10 +282,7 @@ int main() {
                 }
 
                 if (todosMonstrosMortos(monstros, qtdMonstros)) {
-                    printf("Carregando fase %d...\n", faseAtual);
-                    printf("Monstros inicializados: %d\n", qtdMonstros);
                     if (faseAtual > 10) {
-                        printf("Carregando fase %d...\n", faseAtual);
                         strcpy(nomejogador, pedirnomejogador());
                         jogador.pontuacao = barra.escore;
                         salvarScore(nomejogador, jogador.pontuacao);
@@ -295,7 +295,8 @@ int main() {
                     }
 
                     faseAtual++;
-                    TelaCarregamento(faseAtual);
+                    if(faseAtual != 11)
+                        TelaCarregamento(faseAtual);
 
                     descarregarTexturasMapa(&mapa);
                     descarregarJogador(&jogador);
