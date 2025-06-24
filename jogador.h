@@ -7,7 +7,6 @@
     #include "monstro.h"
     #include "barrastatus.h"
     #include "raylib.h"
-    #include "arma.h"
     #define VELOCIDADE_JOGADOR 1
     typedef struct Jogador{
         int x, y;

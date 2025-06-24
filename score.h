@@ -1,7 +1,7 @@
 #ifndef SCORE_H
    #define SCORE_H
    #define MAX_NOME 50
-   #define MAX_SCORES 100
+   #define MAX_SCORES 5
    #define ARQUIVO_SCORE "highscores_ab.bin"
    #include <stdio.h>
    #include <stdlib.h>
@@ -15,4 +15,5 @@
 
    void salvarScore(const char *nome, int score);
    void mostrarTop5();
+   bool NovoRecorde(int score);
 #endif
