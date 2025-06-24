@@ -96,7 +96,7 @@ int exibirMenuJogo()
 
             // Título "MENU"
             int tamanho_menu = MeasureText("MENU", 60);
-            DrawText("MENU", (LARGURA_TELA - tamanho_menu) / 2, 50, 60, RAYWHITE);
+            DrawText("MENU", (LARGURA_TELA - tamanho_menu) / 2, 50, 60, DARKGREEN);
 
             // Botão CONTINUAR
             DrawRectangleRec(BotaoJogo, CorBotaoJogo);

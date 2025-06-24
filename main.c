@@ -73,7 +73,7 @@ void exibirvitoria(Jogador *jogador, TelaDoJogo *tela, Font fonte_vitoria, Font 
         Vector2 tamTextoVitoria = MeasureTextEx(fonte_vitoria, vitoria, tamFonteVitoria, espacoVitoria);
         DrawTextEx(fonte_vitoria, vitoria,
                    (Vector2){(LARGURA_TELA - tamTextoVitoria.x) / 2.0f, 100},
-                   tamFonteVitoria, espacoVitoria, RAYWHITE);
+                   tamFonteVitoria, espacoVitoria, DARKGREEN);
 
         // Pontuação final
         char pontuacao[50];
@@ -139,7 +139,7 @@ void TelaCarregamento(int faseAtual)
         sprintf(texto, "NIVEL %d", faseAtual);
         int tamanhoFonte = 50;
         int larguraTexto = MeasureText(texto, tamanhoFonte);
-        DrawText(texto, (LARGURA_TELA - larguraTexto) / 2, (ALTURA_TELA - tamanhoFonte) / 2, tamanhoFonte, RAYWHITE);
+        DrawText(texto, (LARGURA_TELA - larguraTexto) / 2, (ALTURA_TELA - tamanhoFonte) / 2, tamanhoFonte, DARKGREEN);
 
         EndDrawing();
     }

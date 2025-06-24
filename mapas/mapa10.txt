@@ -7,10 +7,10 @@ P P E     M        P P P
 P P PPP  PPPPPP P PPP PP
 P P         M   P   P PP
 P PPPPPPPPPPPPPPPPPPP PP
-P   M      P         P P
+P   M                P P
 P PPPPPPPPP PPPPPPPPPPPP
 P       M     M       MP
 P PPPPP   PPPPPPPPPPPP P
-P   P     P      M     P
-P   P M   P      M     P
+P   P            M     P
+P   P M          M     P
 PPPPPPPPPPPPPPPPPPPPPPPP

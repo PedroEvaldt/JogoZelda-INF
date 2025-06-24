@@ -85,7 +85,7 @@ void mostrarTop5() {
         float espacamento = 1.0f;
         float tamanhoFonteTitulo = 40;
         Vector2 tamTextoTitulo = MeasureTextEx(fonte, titulo, tamanhoFonteTitulo, espacamento);
-        DrawTextEx(fonte, titulo, (Vector2){(LARGURA_TELA - tamTextoTitulo.x) / 2.0f, 80}, tamanhoFonteTitulo, espacamento, WHITE);
+        DrawTextEx(fonte, titulo, (Vector2){(LARGURA_TELA - tamTextoTitulo.x) / 2.0f, 80}, tamanhoFonteTitulo, espacamento, DARKGREEN);
 
         // Exibe os 5 melhores scores
         for (int i = 0; (i < count) && (i < 5); i++) {
@@ -94,7 +94,7 @@ void mostrarTop5() {
 
             float tamanhoFonteScore = 25;
             Vector2 tamTextoScore = MeasureTextEx(fonte, buffer, tamanhoFonteScore, espacamento);
-            DrawTextEx(fonte, buffer, (Vector2){(LARGURA_TELA - 430) / 2.0f, 180 + i * 50}, tamanhoFonteScore, espacamento, RAYWHITE);
+            DrawTextEx(fonte, buffer, (Vector2){(LARGURA_TELA - tamTextoScore.x) / 2.0f, 180 + i * 50}, tamanhoFonteScore, espacamento, RAYWHITE);
         }
 
         // Instrução para voltar

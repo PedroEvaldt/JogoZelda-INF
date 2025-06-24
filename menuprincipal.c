@@ -125,7 +125,7 @@ int exibirMenuPrincipal()
             float tamanhoFonteMENUPRINCIPAL = 50;
             float espacamento = 0.7f;
             Vector2 tamanhoTextomenu = MeasureTextEx(fonte_escrita, menu_principal, tamanhoFonteMENUPRINCIPAL, espacamento);
-            DrawTextEx(fonte_escrita, menu_principal, (Vector2){(LARGURA_TELA - tamanhoTextomenu.x) / 2.0f, 50}, tamanhoFonteMENUPRINCIPAL, espacamento, WHITE);
+            DrawTextEx(fonte_escrita, menu_principal, (Vector2){(LARGURA_TELA - tamanhoTextomenu.x) / 2.0f, 50}, tamanhoFonteMENUPRINCIPAL, espacamento, DARKGREEN);
 
             // Botão INICIAR
             DrawRectangleRec(BotaoIniciar, CorBotaoIniciar);
@@ -167,7 +167,7 @@ int exibirTelaInfo()
         const char *sobre = "Sobre o jogo:";
         float tamanhoFontesobre = 30;
         Vector2 tamanhoTextofonte = MeasureTextEx(fonte_escrita, sobre, tamanhoFontesobre, espacamento);
-        DrawTextEx(fonte_escrita, sobre, (Vector2){(LARGURA_TELA - tamanhoTextofonte.x) / 2.0f, 80}, tamanhoFontesobre, espacamento, RAYWHITE);
+        DrawTextEx(fonte_escrita, sobre, (Vector2){(LARGURA_TELA - tamanhoTextofonte.x) / 2.0f, 80}, tamanhoFontesobre, espacamento, DARKGREEN);
 
         // Instruções de controle
         const char *tab = "Tecla TAB: Pausa o jogo e abre/fecha o menu do jogo";
@@ -181,7 +181,7 @@ int exibirTelaInfo()
 
         const char *tab4 = "Pressione SPACE para iniciar o jogo";
         Vector2 tamanhoTextotab4 = MeasureTextEx(fonte_escrita, tab4, 14, espacamento);
-        DrawTextEx(fonte_escrita, tab4, (Vector2){(LARGURA_TELA - tamanhoTextotab4.x) / 2.0f, 550}, 14, espacamento, RED);
+        DrawTextEx(fonte_escrita, tab4, (Vector2){(LARGURA_TELA - tamanhoTextotab4.x) / 2.0f, 550}, 14, espacamento, GRAY);
 
         EndDrawing();
 
@@ -204,18 +204,23 @@ char* pedirnomejogador(){
         BeginDrawing();
         ClearBackground(BLACK);
 
-        // Título da tela de entrada de nome
+        // Título da tela para digitar o nome no top 5
+        const char *titulo = "Parabens, voce esta no TOP 5 SCORES";
+        Vector2 tamanhoTitulo = MeasureTextEx(fonte_escrita, titulo, 30, 0.7f);
+        DrawTextEx(fonte_escrita, titulo, (Vector2){(LARGURA_TELA - tamanhoTitulo.x) / 2.0f, 100}, 30, 0.7f, DARKGREEN);
+
+        // Escreve na tela "Digite seu nome:" na tela de entrada de nome
         const char *digitar_nome = "Digite seu nome:";
         Vector2 tamanhoTextodigitarnome = MeasureTextEx(fonte_escrita, digitar_nome, 30, 0.7f);
-        DrawTextEx(fonte_escrita, digitar_nome, (Vector2){(LARGURA_TELA - tamanhoTextodigitarnome.x) / 2.0f, 100}, 30, 0.7f, RAYWHITE);
+        DrawTextEx(fonte_escrita, digitar_nome, (Vector2){(LARGURA_TELA - tamanhoTextodigitarnome.x) / 2.0f, 200}, 30, 0.7f, RAYWHITE);
 
         // Mostra o nome digitado até o momento
         Vector2 tamanhoTextonome = MeasureTextEx(fonte_escrita, nome, 30, 0.7f);
-        DrawTextEx(fonte_escrita, nome, (Vector2){(LARGURA_TELA - tamanhoTextonome.x) / 2.0f, 200}, 30, 0.7f, RAYWHITE);
+        DrawTextEx(fonte_escrita, nome, (Vector2){(LARGURA_TELA - tamanhoTextonome.x) / 2.0f, 300}, 30, 0.7f, RAYWHITE);
 
         const char *enter = "Pressione ENTER para continuar";
         Vector2 tamanhoTextoenter = MeasureTextEx(fonte_escrita, enter, 15, 0.7f);
-        DrawTextEx(fonte_escrita, enter, (Vector2){(LARGURA_TELA - tamanhoTextoenter.x) / 2.0f, 300}, 15, 0.7f, GRAY);
+        DrawTextEx(fonte_escrita, enter, (Vector2){(LARGURA_TELA - tamanhoTextoenter.x) / 2.0f, 400}, 15, 0.7f, GRAY);
 
         EndDrawing();
 
